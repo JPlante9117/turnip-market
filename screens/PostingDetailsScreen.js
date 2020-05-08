@@ -1,7 +1,9 @@
 import React from 'react'
-import { View, StyleSheet, Linking, ScrollView, Button } from 'react-native'
+import { View, StyleSheet, Linking, ScrollView, Button, ImageBackground } from 'react-native'
 import DefaultText from '../components/DefaultText'
 import { MainColors } from '../constants/MainColors'
+import { FontAwesome } from '@expo/vector-icons'
+import { TouchableOpacity } from 'react-native-gesture-handler'
 
 const PostingDetailScreen = props => {
 
@@ -13,12 +15,19 @@ const PostingDetailScreen = props => {
     }
 
     return(
+        <ImageBackground style={{flex: 1}}source={require('../assets/bgtest.png')}>
         <ScrollView contentContainerStyle={styles.screen}>
             <View style={styles.postingWrapper}>
                 <View style={styles.posting}>
+                    <View style={styles.img} />
                     <View style={styles.postingSection}>
                         <DefaultText style={styles.detailHeader}>User:</DefaultText>
-                        <DefaultText style={styles.detailText}>{temp.user}</DefaultText>
+                        <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
+                            <DefaultText style={styles.detailText}>{temp.user}</DefaultText>
+                            <TouchableOpacity onPress={() => {}} style={{marginLeft: 15}}>
+                                <FontAwesome name="envelope" size={23} color={'#3399ff'}/>
+                            </TouchableOpacity>
+                        </View>
                     </View>
                     <View style={styles.postingSection}>
                         <DefaultText style={styles.detailHeader}>Price to Sell:</DefaultText>
@@ -36,6 +45,7 @@ const PostingDetailScreen = props => {
                 </View>
             </View>
         </ScrollView>
+        </ImageBackground>
     )
 }
 
@@ -43,7 +53,6 @@ const styles = StyleSheet.create({
     screen: {
         flex: 1,
         alignItems: 'center',
-        backgroundColor: MainColors.background,
         paddingHorizontal: '5%',
         paddingVertical: '2%'
     },
@@ -77,6 +86,12 @@ const styles = StyleSheet.create({
     },
     queueButton: {
         width: '50%'
+    },
+    img: {
+        height: 200,
+        width: '100%',
+        backgroundColor: '#cfc1b0',
+        borderRadius: 10
     }
 })
 
