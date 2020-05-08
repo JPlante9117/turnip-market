@@ -73,7 +73,8 @@ const styles = StyleSheet.create({
         paddingVertical: 5,
         backgroundColor: MainColors.paleBackground,
         borderRadius: 5,
-        marginVertical: 5
+        marginVertical: 5,
+        color: MainColors.cardText
     }
 })
 
