@@ -24,7 +24,7 @@ const MarketCard = props => {
                     <DefaultText></DefaultText>
                 </View>
                 <View style={styles.buttonContainer}>
-                    <Button title="More" color={'#3399ff'} onPress={props.handlePress}/>
+                    <Button title="More" color={'#ff9933'} onPress={props.handlePress}/>
                 </View>
             </View>
         </Touchable>

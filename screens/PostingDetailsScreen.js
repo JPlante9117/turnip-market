@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { View, StyleSheet, Linking, ScrollView, Button, ImageBackground } from 'react-native'
 import DefaultText from '../components/DefaultText'
 import { MainColors } from '../constants/MainColors'
@@ -47,6 +47,12 @@ const PostingDetailScreen = props => {
         </ScrollView>
         </ImageBackground>
     )
+}
+
+export const postingDetailsOptions = navData => {
+    return {
+        title: `${navData.route.params.user}'s Posting`
+    }
 }
 
 const styles = StyleSheet.create({
