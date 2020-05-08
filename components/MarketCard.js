@@ -1,34 +1,40 @@
 import React from 'react'
-import { View, Button, StyleSheet } from 'react-native'
-import { TouchableOpacity } from 'react-native-gesture-handler'
+import { View, Button, StyleSheet, Platform } from 'react-native'
+import { TouchableOpacity, TouchableNativeFeedback } from 'react-native-gesture-handler'
 import DefaultText from './DefaultText'
+import { MainColors } from '../constants/MainColors'
 
 const MarketCard = props => {
+
+    const Touchable = Platform.OS === 'android' ? TouchableNativeFeedback : TouchableOpacity
+
     return(
-        <TouchableOpacity>
+        <View style={{...styles.card, overflow: 'hidden'}}>
+        <Touchable onPress={props.handlePress}>
             <View style={styles.card}>
                 <View style={styles.circle} />
                 <View style={styles.column}>
                     <DefaultText style={styles.header}>USER</DefaultText>
-                    <DefaultText>Jacques</DefaultText>
+                    <DefaultText>{props.user}</DefaultText>
                     <DefaultText></DefaultText>
                 </View>
                 <View style={styles.column}>
                     <DefaultText style={styles.header}>PRICE</DefaultText>
-                    <DefaultText>126 bells</DefaultText>
+                    <DefaultText>{props.price} bells</DefaultText>
                     <DefaultText></DefaultText>
                 </View>
                 <View style={styles.buttonContainer}>
-                    <Button title="More" color={'#00e6e6'}/>
+                    <Button title="More" color={'#3399ff'} onPress={props.handlePress}/>
                 </View>
             </View>
-        </TouchableOpacity>
+        </Touchable>
+        </View>
     )
 }
 
 const styles = StyleSheet.create({
     card: {
-        backgroundColor: '#fff7e6',
+        backgroundColor: MainColors.cardBackground,
         height: 100,
         width: '100%',
         borderRadius: 10,
@@ -49,7 +55,7 @@ const styles = StyleSheet.create({
     },
     header: {
         fontWeight: 'bold',
-        color: '#8e7557',
+        color: MainColors.cardHeaderText,
         fontFamily: 'varela-round',
         fontSize: 15
     },
