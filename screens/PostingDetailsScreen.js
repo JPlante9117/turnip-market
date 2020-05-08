@@ -1,45 +1,43 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { View, StyleSheet, Linking, ScrollView, Button, ImageBackground } from 'react-native'
 import DefaultText from '../components/DefaultText'
 import { MainColors } from '../constants/MainColors'
 import { FontAwesome } from '@expo/vector-icons'
 import { TouchableOpacity } from 'react-native-gesture-handler'
+import POSTINGS from '../dummyData/postingData'
 
 const PostingDetailScreen = props => {
 
-    const temp = {
-        user: 'Jacques',
-        price: 123,
-        ask: 'Tips / Donations',
-        queueLink: ''
-    }
+    const posting = POSTINGS.find(post => post.id === props.route.params.id)
 
     return(
         <ImageBackground style={{flex: 1}}source={require('../assets/bgtest.png')}>
         <ScrollView contentContainerStyle={styles.screen}>
             <View style={styles.postingWrapper}>
                 <View style={styles.posting}>
-                    <View style={styles.img} />
+                    <ImageBackground style={styles.img} source={{uri: posting.proofImg}}>
+                        <DefaultText style={styles.date}>{posting.readableDate}</DefaultText>
+                    </ImageBackground>
                     <View style={styles.postingSection}>
                         <DefaultText style={styles.detailHeader}>User:</DefaultText>
                         <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
-                            <DefaultText style={styles.detailText}>{temp.user}</DefaultText>
+                            <DefaultText style={styles.detailText}>{posting.userId}</DefaultText>
                             <TouchableOpacity onPress={() => {}} style={{marginLeft: 15}}>
-                                <FontAwesome name="envelope" size={23} color={'#3399ff'}/>
+                                <FontAwesome name="envelope" size={23} color={MainColors.cardText}/>
                             </TouchableOpacity>
                         </View>
                     </View>
                     <View style={styles.postingSection}>
                         <DefaultText style={styles.detailHeader}>Price to Sell:</DefaultText>
-                        <DefaultText style={styles.detailText}>{temp.price} bells</DefaultText>
+                        <DefaultText style={styles.detailText}>{posting.price} bells</DefaultText>
                     </View>
                     <View style={styles.postingSection}>
                         <DefaultText style={styles.detailHeader}>Asking For:</DefaultText>
-                        <DefaultText style={styles.detailText}>{temp.ask}</DefaultText>
+                        <DefaultText style={styles.detailText}>{posting.ask}</DefaultText>
                     </View>
                     <View style={styles.postingSection}>
                         <View style={styles.queueButton}>
-                            <Button color={'#3399ff'} title="Queue Signup" onPress={() => Linking.openURL(temp.queueLink)} disabled={temp.queueLink.length === 0}/>
+                            <Button color={'#3399ff'} title="Queue Signup" onPress={() => Linking.openURL(posting.queueLink)} disabled={posting.queueLink.length === 0}/>
                         </View>
                     </View>
                 </View>
@@ -97,7 +95,18 @@ const styles = StyleSheet.create({
         height: 200,
         width: '100%',
         backgroundColor: '#cfc1b0',
-        borderRadius: 10
+        borderRadius: 10,
+        overflow: 'hidden'
+    },
+    date: {
+        position: 'absolute',
+        top: 0,
+        right: 0,
+        backgroundColor: MainColors.cardHeaderText,
+        borderBottomLeftRadius: 10,
+        borderTopRightRadius: 10,
+        padding: 5,
+        color: MainColors.cardBackground
     }
 })
 

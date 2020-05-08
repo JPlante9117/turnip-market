@@ -1,10 +1,11 @@
 import React from 'react'
 import { createStackNavigator } from '@react-navigation/stack'
 import { NavigationContainer } from '@react-navigation/native'
-import MarketScreen from '../screens/MarketScreen'
+import MarketScreen, { marketScreenOptions } from '../screens/MarketScreen'
 import PostingDetailScreen, { postingDetailsOptions } from '../screens/PostingDetailsScreen'
 import { Platform } from 'react-native'
 import { MainColors } from '../constants/MainColors'
+import NewPostingScreen, { newPostingOptions } from '../screens/NewPostingScreen'
 
 const Stack = createStackNavigator()
 
@@ -33,11 +34,17 @@ const MarketNavigator = props => {
                 <Stack.Screen 
                     name="Market"
                     component={MarketScreen}
+                    options={marketScreenOptions}
                 />
                 <Stack.Screen
                     name="PostingDetails"
                     component={PostingDetailScreen}
                     options={postingDetailsOptions}
+                />
+                <Stack.Screen
+                    name="NewPosting"
+                    component={NewPostingScreen}
+                    options={newPostingOptions}
                 />
             </Stack.Navigator>
         </NavigationContainer>

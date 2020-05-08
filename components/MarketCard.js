@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Button, StyleSheet, Platform } from 'react-native'
+import { View, Button, StyleSheet, Platform, Image } from 'react-native'
 import { TouchableOpacity, TouchableNativeFeedback } from 'react-native-gesture-handler'
 import DefaultText from './DefaultText'
 import { MainColors } from '../constants/MainColors'
@@ -8,11 +8,13 @@ const MarketCard = props => {
 
     const Touchable = Platform.OS === 'android' ? TouchableNativeFeedback : TouchableOpacity
 
+
+    // IMAGE URI HARD CODED
     return(
         <View style={{...styles.card, overflow: 'hidden'}}>
         <Touchable onPress={props.handlePress}>
             <View style={styles.card}>
-                <View style={styles.circle} />
+                <Image style={styles.circle} source={{uri: 'https://pbs.twimg.com/media/ESOmkwIX0AAO2Jj.png'}} />
                 <View style={styles.column}>
                     <DefaultText style={styles.header}>USER</DefaultText>
                     <DefaultText>{props.user}</DefaultText>
