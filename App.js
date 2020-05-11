@@ -7,6 +7,14 @@ import { combineReducers, createStore, applyMiddleware } from 'redux';
 import ReduxThunk from 'redux-thunk'
 import { Provider } from 'react-redux';
 import postingsReducer from './store/reducers/postingsReducer';
+import { init } from './helpers/db';
+
+init().then(() => {
+  console.log('Initialized Database')
+}).catch(err => {
+  console.log('Error in Initialize DB')
+  console.log(err)
+})
 
 const rootReducer = combineReducers({
   postings: postingsReducer
