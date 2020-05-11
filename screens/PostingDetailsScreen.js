@@ -5,10 +5,11 @@ import { MainColors } from '../constants/MainColors'
 import { FontAwesome } from '@expo/vector-icons'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import POSTINGS from '../dummyData/postingData'
+import { useSelector } from 'react-redux'
 
 const PostingDetailScreen = props => {
 
-    const posting = POSTINGS.find(post => post.id === props.route.params.id)
+    const posting = useSelector(state => state.postings.postings.find(post => post.id === props.route.params.id))
 
     return(
         <ImageBackground style={{flex: 1}}source={require('../assets/bgtest.png')}>

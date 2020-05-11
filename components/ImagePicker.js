@@ -9,7 +9,7 @@ const ImagePicker = props => {
 
     
     const [previewImg, setPreviewImg] = useState()
-    
+
     const verifyPermissions = async () => {
 
         const result = await Permissions.askAsync(Permissions.CAMERA)
@@ -36,6 +36,7 @@ const ImagePicker = props => {
         })
 
         setPreviewImg(image.uri)
+        props.onImageTaken(image.uri)
     }
 
     return (
@@ -44,7 +45,7 @@ const ImagePicker = props => {
             {!previewImg ? <DefaultText>No image picked yet.</DefaultText> :
             <Image style={styles.image} source={{uri: previewImg}} />}
         </View>
-        <Button title="Take Image" color={MainColors.paleBackground} onPress={takeImageHandler} />
+        <Button title="Take Image" color={MainColors.cardText} onPress={takeImageHandler} />
     </View>
     )
 }
