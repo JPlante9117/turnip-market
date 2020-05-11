@@ -3,6 +3,16 @@ import { StyleSheet, Text, View } from 'react-native';
 import MarketNavigator from './navigation/MarketNavigator';
 import * as Font from 'expo-font'
 import { AppLoading } from 'expo';
+import { combineReducers, createStore, applyMiddleware } from 'redux';
+import ReduxThunk from 'redux-thunk'
+import { Provider } from 'react-redux';
+import postingsReducer from './store/reducers/postingsReducer';
+
+const rootReducer = combineReducers({
+  postings: postingsReducer
+})
+
+const store = createStore(rootReducer, applyMiddleware(ReduxThunk))
 
 const fetchFonts = () => {
   return Font.loadAsync({
@@ -19,7 +29,9 @@ export default function App() {
   }
 
   return (
-    <MarketNavigator />
+    <Provider store={store}>
+      <MarketNavigator />
+    </Provider>
   );
 }
 
