@@ -4,6 +4,7 @@ import DefaultText from '../components/DefaultText'
 import { MainColors } from '../constants/MainColors'
 import { HeaderButtons, Item } from 'react-navigation-header-buttons'
 import CustomHeaderButton from '../components/CustomHeaderButton'
+import ImagePicker from '../components/ImagePicker'
 
 const NewPostingScreen = props => {
     return(
@@ -18,7 +19,8 @@ const NewPostingScreen = props => {
                     <DefaultText style={styles.detailHeader}>Queue Link:</DefaultText>
                     <TextInput style={styles.inputs} />
                     <DefaultText style={styles.detailHeader}>Take/Upload Proof Photo</DefaultText>
-                    <Button title="Upload Photo" />
+                    {/* <Button title="Upload Photo" /> */}
+                    <ImagePicker />
                 </View>
             </View>
         </ScrollView>
