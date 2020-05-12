@@ -31,9 +31,9 @@ const MarketScreen = props => {
     }
 
     if (isLoading) {
-        return <View style={styles.centered}>
-            <ActivityIndicator size='large' color={MainColors.cardText} />
-        </View>
+        return <ImageBackground source={require('../assets/bgtest.png')} style={styles.centered}>
+            <ActivityIndicator size='large' color={MainColors.paleBackground} />
+        </ImageBackground>
     }
 
     return(
@@ -61,6 +61,11 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         padding: '5%'
+    },
+    centered: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center'
     }
 })
 

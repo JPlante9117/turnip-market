@@ -1,11 +1,8 @@
-import * as FileSystem from 'expo-file-system'
-import POSTINGS from "../../dummyData/postingData"
-import { insertPosting } from '../../helpers/db'
 import Posting from '../../models/posting'
-import { uriToBlob } from '../../helpers/uriToBlob'
 
 export const GET_POSTINGS = 'GET_POSTINGS'
 export const CREATE_POSTING = 'CREATE_POSTING'
+export const DELETE_POSTING = 'DELETE_POSTING'
 
 export const fetchPostings = () => {    
     return async (dispatch) => {
@@ -77,4 +74,26 @@ export const createPosting = postingData => {
         }
     }
 
+}
+
+export const deletePosting = postId => {
+    return async dispatch => {
+        try{
+            const response = await fetch(`https://sow-joan.firebaseio.com/postings/${postId}.json`,
+            {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            console.log('1')
+            dispatch({
+                type: DELETE_POSTING,
+                pid: postId
+            })
+        } catch(err){
+            console.log(err)
+            throw err
+        }
+    }
 }

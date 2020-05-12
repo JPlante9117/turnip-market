@@ -1,46 +1,64 @@
-import React from 'react'
+import React, { useEffect, useCallback } from 'react'
 import { View, StyleSheet, Linking, ScrollView, Button, ImageBackground } from 'react-native'
 import DefaultText from '../components/DefaultText'
 import { MainColors } from '../constants/MainColors'
 import { FontAwesome } from '@expo/vector-icons'
 import { TouchableOpacity } from 'react-native-gesture-handler'
-import POSTINGS from '../dummyData/postingData'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
+import { HeaderButtons, Item } from 'react-navigation-header-buttons'
+import CustomHeaderButton from '../components/CustomHeaderButton'
+import { deletePosting } from '../store/actions/postingActions'
 
 const PostingDetailScreen = props => {
 
     const posting = useSelector(state => state.postings.postings.find(post => post.id === props.route.params.id))
+    const dispatch = useDispatch()
+
+    const deletePostHandler = useCallback(postId => {
+        dispatch(deletePosting(postId))
+    }, [dispatch, deletePosting])
+
+    useEffect(() => {
+        props.navigation.setParams({deletePost: deletePostHandler})
+    }, [deletePostHandler])
 
     return(
         <ImageBackground style={{flex: 1}}source={require('../assets/bgtest.png')}>
         <ScrollView contentContainerStyle={styles.screen}>
             <View style={styles.postingWrapper}>
                 <View style={styles.posting}>
-                    <ImageBackground style={styles.img} source={{uri: `data:image/jpg;base64,${posting.proofImg}`}}>
-                        <DefaultText style={styles.date}>{posting.readableDate}</DefaultText>
-                    </ImageBackground>
-                    <View style={styles.postingSection}>
-                        <DefaultText style={styles.detailHeader}>User:</DefaultText>
-                        <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
-                            <DefaultText style={styles.detailText}>{posting.userId}</DefaultText>
-                            <TouchableOpacity onPress={() => {}} style={{marginLeft: 15}}>
-                                <FontAwesome name="envelope" size={23} color={MainColors.cardText}/>
-                            </TouchableOpacity>
+                    {!posting ? 
+                    <View style={styles.posting}>
+                        <DefaultText>This Post No Longer Exists</DefaultText>
+                    </View>
+                    : 
+                    <View style={styles.posting}>
+                        <ImageBackground style={styles.img} source={{uri: `data:image/jpg;base64,${posting.proofImg}`}}>
+                            <DefaultText style={styles.date}>{posting.readableDate}</DefaultText>
+                        </ImageBackground>
+                        <View style={styles.postingSection}>
+                            <DefaultText style={styles.detailHeader}>User:</DefaultText>
+                            <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
+                                <DefaultText style={styles.detailText}>{posting.userId}</DefaultText>
+                                <TouchableOpacity onPress={() => {}} style={{marginLeft: 15}}>
+                                    <FontAwesome name="envelope" size={23} color={MainColors.cardText}/>
+                                </TouchableOpacity>
+                            </View>
                         </View>
-                    </View>
-                    <View style={styles.postingSection}>
-                        <DefaultText style={styles.detailHeader}>Price to Sell:</DefaultText>
-                        <DefaultText style={styles.detailText}>{posting.price} bells</DefaultText>
-                    </View>
-                    <View style={styles.postingSection}>
-                        <DefaultText style={styles.detailHeader}>Asking For:</DefaultText>
-                        <DefaultText style={styles.detailText}>{posting.ask}</DefaultText>
-                    </View>
-                    <View style={styles.postingSection}>
-                        <View style={styles.queueButton}>
-                            <Button color={'#3399ff'} title="Queue Signup" onPress={() => Linking.openURL(posting.queueLink)} disabled={posting.queueLink.length === 0}/>
+                        <View style={styles.postingSection}>
+                            <DefaultText style={styles.detailHeader}>Price to Sell:</DefaultText>
+                            <DefaultText style={styles.detailText}>{posting.price} bells</DefaultText>
                         </View>
-                    </View>
+                        <View style={styles.postingSection}>
+                            <DefaultText style={styles.detailHeader}>Asking For:</DefaultText>
+                            <DefaultText style={styles.detailText}>{posting.ask}</DefaultText>
+                        </View>
+                        <View style={styles.postingSection}>
+                            <View style={styles.queueButton}>
+                                <Button color={'#3399ff'} title="Queue Signup" onPress={() => Linking.openURL(posting.queueLink)} disabled={posting.queueLink.length === 0}/>
+                            </View>
+                        </View>
+                    </View>}
                 </View>
             </View>
         </ScrollView>
@@ -50,7 +68,15 @@ const PostingDetailScreen = props => {
 
 export const postingDetailsOptions = navData => {
     return {
-        title: `${navData.route.params.user}'s Posting`
+        title: `${navData.route.params.user}'s Posting`,
+        headerRight: () => (
+            <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
+                <Item iconName="trash" iconSize={30} onPress={() => {
+                    navData.route.params.deletePost(navData.route.params.id)
+                    navData.navigation.goBack()
+                }}/>
+            </HeaderButtons>
+        )
     }
 }
 
@@ -90,7 +116,8 @@ const styles = StyleSheet.create({
         color: '#5f4e3a'
     },
     queueButton: {
-        width: '50%'
+        width: '50%',
+        marginTop: 10
     },
     img: {
         height: 200,
