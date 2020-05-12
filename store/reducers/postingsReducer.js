@@ -11,7 +11,7 @@ export default (state = initialState, action) => {
     switch(action.type){
         case GET_POSTINGS:
             return {
-                postings: POSTINGS,
+                postings: action.postings,
                 myPostings: []
             }
         case CREATE_POSTING:

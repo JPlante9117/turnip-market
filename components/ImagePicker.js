@@ -32,18 +32,19 @@ const ImagePicker = props => {
         const image = await ImgPicker.launchCameraAsync({
             allowsEditing: true,
             quality: 0.5,
-            aspect: [16, 9]
+            aspect: [16, 9],
+            base64: true
         })
 
-        setPreviewImg(image.uri)
-        props.onImageTaken(image.uri)
+        setPreviewImg(image.base64)
+        props.onImageTaken(image.base64)
     }
 
     return (
     <View style={styles.imagePicker}>
         <View style={styles.imagePreview}>
             {!previewImg ? <DefaultText>No image picked yet.</DefaultText> :
-            <Image style={styles.image} source={{uri: previewImg}} />}
+            <Image style={styles.image} source={{uri: `data:image/jpg;base64,${previewImg}`}} />}
         </View>
         <Button title="Take Image" color={MainColors.cardText} onPress={takeImageHandler} />
     </View>

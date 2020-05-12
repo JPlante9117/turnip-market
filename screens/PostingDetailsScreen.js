@@ -16,7 +16,7 @@ const PostingDetailScreen = props => {
         <ScrollView contentContainerStyle={styles.screen}>
             <View style={styles.postingWrapper}>
                 <View style={styles.posting}>
-                    <ImageBackground style={styles.img} source={{uri: posting.proofImg}}>
+                    <ImageBackground style={styles.img} source={{uri: `data:image/jpg;base64,${posting.proofImg}`}}>
                         <DefaultText style={styles.date}>{posting.readableDate}</DefaultText>
                     </ImageBackground>
                     <View style={styles.postingSection}>
