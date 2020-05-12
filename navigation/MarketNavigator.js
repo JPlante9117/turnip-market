@@ -7,7 +7,8 @@ import PostingDetailScreen, { postingDetailsOptions } from '../screens/PostingDe
 import { Platform } from 'react-native'
 import { MainColors } from '../constants/MainColors'
 import NewPostingScreen, { newPostingOptions } from '../screens/NewPostingScreen'
-import { MaterialCommunityIcons } from '@expo/vector-icons'
+import { MaterialCommunityIcons, Fontisto } from '@expo/vector-icons'
+import MyMarketScreen, { myMarketOptions } from '../screens/personalStackScreens/MyMarketScreen'
 
 const Stack = createStackNavigator()
 const Drawer = createDrawerNavigator()
@@ -53,6 +54,20 @@ const MarketNavigator = props => {
         )
     }
 
+    const personalStack = () => {
+        return(
+            <Stack.Navigator
+                screenOptions={baseHeader}
+            >
+                <Stack.Screen
+                    name="MyMarket"
+                    component={MyMarketScreen}
+                    options={myMarketOptions}
+                />
+            </Stack.Navigator>
+        )
+    }
+
     return(
         <NavigationContainer>
             <Drawer.Navigator
@@ -64,11 +79,19 @@ const MarketNavigator = props => {
                 }}
             >
                 <Drawer.Screen
-                    name="MarketStack"
+                    name="GlobalMarketStack"
                     component={marketStack}
                     options={{
-                        drawerLabel: 'Turnip Market',
-                        drawerIcon: props => <MaterialCommunityIcons name='pig' size={35} color={props.color} />
+                        drawerLabel: 'Global Market',
+                        drawerIcon: props => <Fontisto name='earth' size={30} color={props.color} />
+                    }}
+                />
+                <Drawer.Screen
+                    name="MyMarketStack"
+                    component={personalStack}
+                    options={{
+                        drawerLabel: 'My Island Market',
+                        drawerIcon: props => <Fontisto name='island' size={30} color={props.color} />
                     }}
                 />
             </Drawer.Navigator>

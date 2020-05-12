@@ -3,5 +3,6 @@ export const MainColors = {
     cardBackground: '#fff7e6',
     cardHeaderText: '#8e7557',
     cardText: '#5f4e3a',
-    paleBackground: '#cfc1b0'
+    paleBackground: '#cfc1b0',
+    bellsBlue: '#00aaff'
 }
