@@ -7,9 +7,8 @@ import PostingDetailScreen, { postingDetailsOptions } from '../screens/PostingDe
 import { Platform } from 'react-native'
 import { MainColors } from '../constants/MainColors'
 import NewPostingScreen, { newPostingOptions } from '../screens/NewPostingScreen'
-import { MaterialCommunityIcons, Fontisto } from '@expo/vector-icons'
+import { Fontisto } from '@expo/vector-icons'
 import MyMarketScreen, { myMarketOptions } from '../screens/personalStackScreens/MyMarketScreen'
-import UpdatePricesScreen from '../screens/personalStackScreens/UpdatePricesScreen'
 
 const Stack = createStackNavigator()
 const Drawer = createDrawerNavigator()
@@ -64,10 +63,6 @@ const MarketNavigator = props => {
                     name="MyMarket"
                     component={MyMarketScreen}
                     options={myMarketOptions}
-                />
-                <Stack.Screen
-                    name="UpdatePrices"
-                    component={UpdatePricesScreen}
                 />
             </Stack.Navigator>
         )

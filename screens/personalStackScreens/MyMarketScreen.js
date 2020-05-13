@@ -1,31 +1,34 @@
-import React, { useEffect, useState } from 'react'
-import { View, ImageBackground, StyleSheet, Dimensions, Button } from 'react-native'
+import React, { useEffect, useState, useCallback } from 'react'
+import { View, ImageBackground, StyleSheet, Dimensions, Button, Modal, Alert } from 'react-native'
 import DefaultText from '../../components/DefaultText'
 import { HeaderButtons, Item } from 'react-navigation-header-buttons'
 import CustomHeaderButton from '../../components/CustomHeaderButton'
 import { LineChart } from 'react-native-chart-kit'
 import { MainColors } from '../../constants/MainColors'
+import IslandPriceModal from '../../components/IslandPriceModal'
 
 const MyMarketScreen = props => {
     
     const [isLoading, setIsLoading] = useState(false)
     const [values, setValues] = useState([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
     const [latestVal, setLatestVal] = useState(0)
+    const [modalVis, setModalVis] = useState(false)
 
-    const pulledData = {
-        id: 1,
-        userId: 'u1',
-        values: values,
-        latest: latestVal
-    }
+    const onInputSubmit = useCallback((day, val) => {
+        console.log('submit worked')
+        let allVals = values
+        allVals[day] = parseInt(val)
+        setValues(allVals)
+        setModalVis(!modalVis)
+    }, [setValues, setModalVis])
 
-    const net = pulledData.latest - pulledData.values[0]
+    const net = latestVal - values[0]
     
     const data = {
         labels: ["Sun", "Mon", "", "Tues", "", "Wed", "", "Thurs", "", "Fri", "", "Sat", ""],
         datasets: [
           {
-            data: pulledData.values,
+            data: values,
             strokeWidth: 2
           }
         ],
@@ -33,6 +36,18 @@ const MyMarketScreen = props => {
 
     return(
         <ImageBackground style={styles.container} source={require('../../assets/bgtest.png')}>
+                <Modal
+                    animationType='fade'
+                    transparent={true}
+                    visible={modalVis}
+                    onRequestClose={() => {
+                        Alert.alert("Please close the modal first before navigating.")
+                    }}
+                >
+                    <View style={styles.modalWrapper}>
+                        <IslandPriceModal submitModal={onInputSubmit}/>
+                    </View>
+                </Modal>
             <View style={styles.wrapper}>
                 <View style={styles.textContainer}>
                     <DefaultText style={styles.header}>This Week's Prices</DefaultText>
@@ -58,7 +73,7 @@ const MyMarketScreen = props => {
                 <View style={styles.netContainer}>
                     <View style={styles.netCol}>
                         <DefaultText style={styles.net}>Today's Price: </DefaultText>
-                        <DefaultText style={styles.bells}>{pulledData.latest} bells</DefaultText>
+                        <DefaultText style={styles.bells}>{latestVal} bells</DefaultText>
                     </View>
                     <View style={styles.netCol}>
                         <DefaultText style={styles.net}>Current Net:</DefaultText>
@@ -67,7 +82,7 @@ const MyMarketScreen = props => {
                 </View>
                 
                 <View style={styles.buttonContainer}>
-                    <Button title='Reset Week' color={MainColors.cardHeaderText} onPress={() => props.navigation.navigate('UpdatePrices')}/>
+                    <Button title='Add Price' color={MainColors.cardHeaderText} onPress={() => setModalVis(!modalVis)}/>
                 </View>
             </View>
         </ImageBackground>
@@ -122,6 +137,12 @@ const styles = StyleSheet.create({
     buttonContainer: {
         margin: 10,
         width: Dimensions.get('window').width - 30
+    },
+    modalWrapper: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        flex: 1,
+        backgroundColor: '#00000080'
     }
 })
 
