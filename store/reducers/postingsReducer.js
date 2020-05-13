@@ -1,9 +1,8 @@
-import POSTINGS from "../../dummyData/postingData"
 import { GET_POSTINGS, CREATE_POSTING, DELETE_POSTING } from "../actions/postingActions"
 import Posting from "../../models/posting"
 
 const initialState = {
-    postings: POSTINGS,
+    postings: [],
     myPostings: []
 }
 

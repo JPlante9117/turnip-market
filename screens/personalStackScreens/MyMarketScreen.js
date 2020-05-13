@@ -9,31 +9,23 @@ import { MainColors } from '../../constants/MainColors'
 const MyMarketScreen = props => {
     
     const [isLoading, setIsLoading] = useState(false)
+    const [values, setValues] = useState([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
+    const [latestVal, setLatestVal] = useState(0)
 
     const pulledData = {
-        buy: 101,
-        monM: 126,
-        monA: 95,
-        tueM: 106,
-        tueA: 99,
-        wedM: 0,
-        wedA: 0,
-        thuM: 0,
-        thuA: 0,
-        friM: 0,
-        friA: 0,
-        satM: 0,
-        satA: 0,
-        latest: 99
+        id: 1,
+        userId: 'u1',
+        values: values,
+        latest: latestVal
     }
 
-    const net = pulledData.latest - pulledData.buy
+    const net = pulledData.latest - pulledData.values[0]
     
     const data = {
         labels: ["Sun", "Mon", "", "Tues", "", "Wed", "", "Thurs", "", "Fri", "", "Sat", ""],
         datasets: [
           {
-            data: [pulledData.buy, pulledData.monM, pulledData.monA, pulledData.tueM, pulledData.tueA, pulledData.wedM, pulledData.wedM, pulledData.thuM, pulledData.thuM, pulledData.friM, pulledData.friM, pulledData.satM, pulledData.satM],
+            data: pulledData.values,
             strokeWidth: 2
           }
         ],
@@ -50,7 +42,6 @@ const MyMarketScreen = props => {
                     width={Dimensions.get('window').width - 10}
                     height={200}
                     chartConfig={{
-                        backgroundColor: MainColors.cardBackground,
                         backgroundGradientFrom: MainColors.cardBackground,
                         backgroundGradientTo: MainColors.paleBackground,
                         color: (opacity = 1) => `rgba(95, 78, 58, ${opacity})`,
@@ -65,11 +56,18 @@ const MyMarketScreen = props => {
                     }}
                 />
                 <View style={styles.netContainer}>
-                    <DefaultText style={styles.net}>Today's Price: <DefaultText style={styles.bells}>{pulledData.latest} bells</DefaultText> / Turnip</DefaultText>
-                    <DefaultText style={styles.net}>Current Net: <DefaultText style={{fontSize: 20, color: net > 0 ? 'green' : 'red'}}>{net > 0 ? "+" + net : net} bells</DefaultText> / Turnip</DefaultText>
+                    <View style={styles.netCol}>
+                        <DefaultText style={styles.net}>Today's Price: </DefaultText>
+                        <DefaultText style={styles.bells}>{pulledData.latest} bells</DefaultText>
+                    </View>
+                    <View style={styles.netCol}>
+                        <DefaultText style={styles.net}>Current Net:</DefaultText>
+                        <DefaultText style={{fontSize: 20, color: net > 0 ? 'green' : 'red'}}>{net > 0 ? "+" + net : net} bells</DefaultText>
+                    </View>
                 </View>
-                <View>
-                    <Button title='Reset Week' onPress={() => {}}/>
+                
+                <View style={styles.buttonContainer}>
+                    <Button title='Reset Week' color={MainColors.cardHeaderText} onPress={() => props.navigation.navigate('UpdatePrices')}/>
                 </View>
             </View>
         </ImageBackground>
@@ -79,23 +77,22 @@ const MyMarketScreen = props => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: MainColors.paleBackground,
         alignItems: 'center',
         justifyContent: 'center'
     },
     wrapper: {
         alignItems: 'center',
-        backgroundColor: MainColors.paleBackground,
+        backgroundColor: MainColors.cardBackground,
         borderRadius: 10
     },
     header: {
         fontSize: 30,
-        color: MainColors.cardHeaderText,
+        color: MainColors.cardText,
         textAlign: 'center',
     },
     net: {
         fontSize: 20,
-        color: MainColors.cardHeaderText,
+        color: MainColors.cardText,
         textAlign: 'center'
     },
     bells: {
@@ -106,14 +103,25 @@ const styles = StyleSheet.create({
         padding: 10,
         marginVertical: 10,
         borderRadius: 10,
-        backgroundColor: MainColors.cardBackground,
-        width: Dimensions.get('window').width - 10      
+        width: Dimensions.get('window').width - 30,
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        alignItems: 'center'    
     },
     textContainer: {
-        backgroundColor: MainColors.cardBackground,
         width: '100%',
         marginVertical: 10,
-        borderRadius: 10
+        borderRadius: 10,
+        width: Dimensions.get('window').width - 30
+    },
+    netCol: {
+        justifyContent: 'center',
+        textAlign: 'center',
+        alignItems: 'center'
+    },
+    buttonContainer: {
+        margin: 10,
+        width: Dimensions.get('window').width - 30
     }
 })
 
