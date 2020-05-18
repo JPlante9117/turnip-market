@@ -6,6 +6,8 @@ import CustomHeaderButton from '../../components/CustomHeaderButton'
 import { LineChart } from 'react-native-chart-kit'
 import { MainColors } from '../../constants/MainColors'
 import IslandPriceModal from '../../components/IslandPriceModal'
+import { fetchPrices } from '../../store/actions/islandPricesActions'
+import { useDispatch, useSelector } from 'react-redux'
 
 const MyMarketScreen = props => {
     
@@ -13,6 +15,22 @@ const MyMarketScreen = props => {
     const [values, setValues] = useState([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
     const [latestVal, setLatestVal] = useState(0)
     const [modalVis, setModalVis] = useState(false)
+    const state = useSelector(state => state.islandPrices.myIslandPrices.values)
+    const dispatch = useDispatch()
+
+    const loadPrices = useCallback(async () => {
+        try {
+            await dispatch(fetchPrices())
+        } catch (err){
+            console.log(err)
+        }
+    }, [dispatch])
+
+    useEffect(() => {
+        loadPrices()
+    }, [dispatch, loadPrices])
+
+    
 
     const onInputSubmit = useCallback((day, val) => {
         console.log('submit worked')
@@ -36,18 +54,6 @@ const MyMarketScreen = props => {
 
     return(
         <ImageBackground style={styles.container} source={require('../../assets/bgtest.png')}>
-                <Modal
-                    animationType='fade'
-                    transparent={true}
-                    visible={modalVis}
-                    onRequestClose={() => {
-                        Alert.alert("Please close the modal first before navigating.")
-                    }}
-                >
-                    <View style={styles.modalWrapper}>
-                        <IslandPriceModal submitModal={onInputSubmit}/>
-                    </View>
-                </Modal>
             <View style={styles.wrapper}>
                 <View style={styles.textContainer}>
                     <DefaultText style={styles.header}>This Week's Prices</DefaultText>
@@ -82,7 +88,7 @@ const MyMarketScreen = props => {
                 </View>
                 
                 <View style={styles.buttonContainer}>
-                    <Button title='Add Price' color={MainColors.cardHeaderText} onPress={() => setModalVis(!modalVis)}/>
+                    <Button title='Add Price' color={MainColors.cardHeaderText} onPress={() => props.navigation.navigate("UpdateMarket")}/>
                 </View>
             </View>
         </ImageBackground>

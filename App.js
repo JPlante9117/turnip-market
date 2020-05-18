@@ -7,9 +7,11 @@ import { combineReducers, createStore, applyMiddleware } from 'redux';
 import ReduxThunk from 'redux-thunk'
 import { Provider } from 'react-redux';
 import postingsReducer from './store/reducers/postingsReducer';
+import islandPricesReducer from './store/reducers/islandPricesReducer';
 
 const rootReducer = combineReducers({
-  postings: postingsReducer
+  postings: postingsReducer,
+  islandPrices: islandPricesReducer
 })
 
 const store = createStore(rootReducer, applyMiddleware(ReduxThunk))

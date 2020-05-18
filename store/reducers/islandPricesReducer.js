@@ -1,4 +1,5 @@
 import { UPDATE_PRICES, RESET_PRICES, GET_PRICES, INIT_PRICES } from "../actions/islandPricesActions"
+import WeeklyTracker from "../../models/weeklytracker"
 
 const initialState = {
     islandPrices: [],
@@ -23,6 +24,8 @@ export default (state = initialState, action) => {
         case UPDATE_PRICES:
             let islandIndex = state.islandPrices.findIndex(isl => isl.userId === 'u1')
             let selectedIsland = state.islandPrices.find(isl => isl.userId === 'u1')
+            let selectedDay = action.updatedDays.day
+            let selectedPrice = action.updatedDays.price
             let updatedIsland
             if (selectedIsland){
                 updatedIsland = {
@@ -32,9 +35,7 @@ export default (state = initialState, action) => {
                 updatedIsland = new WeeklyTracker(new Date().toString(), 'u1')
             }
             let updatedValues = [...updatedIsland.values]
-            for(const key in action.updatedDays){
-                updatedValues[key] = action.updatedDays[key]
-            }
+            updatedValues[selectedDay] = selectedPrice
             let latestValue
             for (const index in updatedValues){
                 if(updatedValues[index] === 0 && index !== 0){
@@ -58,23 +59,23 @@ export default (state = initialState, action) => {
                 myIslandPrices: updatedIsland
             }
         case RESET_PRICES:
-            let islandIndex = state.islandPrices.findIndex(isl => isl.id === action.id)
-            let selectedIsland = state.islandPrices.find(isl => isl.id === action.id)
+            let isleIndex = state.islandPrices.findIndex(isl => isl.id === action.id)
+            let selectedIsle = state.islandPrices.find(isl => isl.id === action.id)
             let resetIsland
-            if (selectedIsland) {
+            if (selectedIsle) {
                 resetIsland = {
-                    ...selectedIsland,
+                    ...selectedIsle,
                     values: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
                     latest: 0
                 }
             } else {
                 resetIsland = new WeeklyTracker(new Date().toString(), 'u1')
             }
-            let updatedIslandsList = [...state.islandPrices]
-            if (islandIndex) {
-                updatedIslandsList[islandIndex] = resetIsland
+            let updatedIslesList = [...state.islandPrices]
+            if (isleIndex) {
+                updatedIslesList[isleIndex] = resetIsland
             } else {
-                updatedIslandsList.concat(resetIsland)
+                updatedIslesList.concat(resetIsland)
             }
         default:
             return state

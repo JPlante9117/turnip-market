@@ -6,3 +6,5 @@ class WeeklyTracker {
         this.latest = latest
     }
 }
+
+export default WeeklyTracker
