@@ -1,30 +1,42 @@
 import React, { useState, useCallback, useEffect } from 'react'
-import { View, StyleSheet, ImageBackground, FlatList, ActivityIndicator } from 'react-native'
+import { View, StyleSheet, ImageBackground, FlatList, ActivityIndicator, InteractionManager } from 'react-native'
 import MarketCard from '../components/MarketCard'
 import { HeaderButtons, Item } from 'react-navigation-header-buttons'
 import CustomHeaderButton from '../components/CustomHeaderButton'
 import { useSelector, useDispatch } from 'react-redux'
 import { fetchPostings } from '../store/actions/postingActions'
 import { MainColors } from '../constants/MainColors'
+import { useFocusEffect } from '@react-navigation/native'
 
 const MarketScreen = props => {
 
     const posts = useSelector(state => state.postings.postings)
     const [isLoading, setIsLoading] = useState(false)
+    const [error, setError] = useState()
     const dispatch = useDispatch()
 
     const loadPosts = useCallback(async () => {
+        setIsLoading(true)
         try {
             await dispatch(fetchPostings())
         } catch(err){
-            console.log(err)
+            setError(err)
         }
+        setIsLoading(false)
     }, [dispatch])
 
     useEffect(() => {
         setIsLoading(true)
         loadPosts().then(() => setIsLoading(false))
     }, [dispatch, setIsLoading, loadPosts])
+
+    useFocusEffect(
+        useCallback(() => {
+            const task = InteractionManager.runAfterInteractions(loadPosts)
+
+            return () => task.cancel()
+        }, [loadPosts])
+    )
 
     const renderCards = itemData => {
         return <MarketCard user={itemData.item.userId} price={itemData.item.price} handlePress={() => props.navigation.navigate('PostingDetails', {user: itemData.item.userId, id: itemData.item.id})} />
