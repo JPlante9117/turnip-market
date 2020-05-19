@@ -1,35 +1,52 @@
 import React from 'react'
 import { createStackNavigator } from '@react-navigation/stack'
-import { NavigationContainer } from '@react-navigation/native'
-import { createDrawerNavigator } from '@react-navigation/drawer'
+import { createDrawerNavigator, DrawerItemList } from '@react-navigation/drawer'
 import MarketScreen, { marketScreenOptions } from '../screens/MarketScreen'
 import PostingDetailScreen, { postingDetailsOptions } from '../screens/PostingDetailsScreen'
-import { Platform } from 'react-native'
+import { Platform, ScrollView, SafeAreaView, TouchableOpacity } from 'react-native'
 import { MainColors } from '../constants/MainColors'
 import NewPostingScreen, { newPostingOptions } from '../screens/NewPostingScreen'
-import { Fontisto } from '@expo/vector-icons'
+import { Fontisto, Ionicons } from '@expo/vector-icons'
 import MyMarketScreen, { myMarketOptions } from '../screens/personalStackScreens/MyMarketScreen'
 import UpdateMarketScreen from '../screens/personalStackScreens/UpdateMarketScreen'
+import AuthScreen, { authScreenOptions } from '../screens/AuthScreen'
+import DefaultText from '../components/DefaultText'
+import { logout } from '../store/actions/authActions'
+import { useDispatch } from 'react-redux'
 
 const Stack = createStackNavigator()
 const Drawer = createDrawerNavigator()
 
-const MarketNavigator = props => {
+const baseHeader = {
+    headerStyle: {
+        backgroundColor: Platform.OS === 'android' ? MainColors.cardBackground : ''
+    },
+    headerTitleStyle: {
+        width: '100%',
+        fontFamily: 'varela-round'
+    },
+    headerBackTitleStyle: {
+        fontFamily: 'varela-round'
+    },
+    headerTintColor: MainColors.cardText,
+    headerTitleAlign: 'center'
+}
 
-    const baseHeader = {
-        headerStyle: {
-            backgroundColor: Platform.OS === 'android' ? MainColors.cardBackground : ''
-        },
-        headerTitleStyle: {
-            width: '100%',
-            fontFamily: 'varela-round'
-        },
-        headerBackTitleStyle: {
-            fontFamily: 'varela-round'
-        },
-        headerTintColor: MainColors.cardText,
-        headerTitleAlign: 'center'
-    }
+export const AuthNavigator = props => {
+    return(
+        <Stack.Navigator
+            screenOptions={baseHeader}
+        >
+                <Stack.Screen
+                    name="Login"
+                    component={AuthScreen}
+                    options={authScreenOptions}
+                />
+        </Stack.Navigator>
+    )
+}
+
+const MarketNavigator = props => {
 
     const marketStack = () => {
         return(
@@ -73,14 +90,28 @@ const MarketNavigator = props => {
         )
     }
 
+    const dispatch = useDispatch()
+
     return(
-        <NavigationContainer>
             <Drawer.Navigator
                 drawerStyle={{
                     backgroundColor: MainColors.cardBackground,
                 }}
                 drawerContentOptions={{
                     activeTintColor: MainColors.cardText
+                }}
+                drawerContent={props => {
+                    return(
+                        <ScrollView contentContainerStyle={{flex: 1, marginTop: 50, justifyContent: 'space-between'}}>
+                            <SafeAreaView forceInset={{top: 'always', horizontal: 'never'}}>
+                                <DrawerItemList {...props} />
+                            </SafeAreaView>
+                            <TouchableOpacity style={{padding: 10, flexDirection: 'row', backgroundColor: MainColors.cardHeaderText, alignItems: 'center'}} onPress={() => dispatch(logout())}>
+                                    <Ionicons name={Platform.OS === 'android' ? 'md-exit' : 'ios-exit'} size={23} color='white' />
+                                    <DefaultText style={{color: 'white', marginLeft: 30}}>LOGOUT</DefaultText>
+                            </TouchableOpacity>
+                        </ScrollView>
+                    )
                 }}
             >
                 <Drawer.Screen
@@ -100,7 +131,6 @@ const MarketNavigator = props => {
                     }}
                 />
             </Drawer.Navigator>
-        </NavigationContainer>
     )
 }
 

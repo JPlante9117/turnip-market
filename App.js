@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import MarketNavigator from './navigation/MarketNavigator';
 import * as Font from 'expo-font'
 import { AppLoading } from 'expo';
 import { combineReducers, createStore, applyMiddleware } from 'redux';
@@ -8,10 +7,13 @@ import ReduxThunk from 'redux-thunk'
 import { Provider } from 'react-redux';
 import postingsReducer from './store/reducers/postingsReducer';
 import islandPricesReducer from './store/reducers/islandPricesReducer';
+import authReducer from './store/reducers/authReducer';
+import AppNavigator from './navigation/AppNavigator';
 
 const rootReducer = combineReducers({
   postings: postingsReducer,
-  islandPrices: islandPricesReducer
+  islandPrices: islandPricesReducer,
+  authentication: authReducer
 })
 
 const store = createStore(rootReducer, applyMiddleware(ReduxThunk))
@@ -32,7 +34,7 @@ export default function App() {
 
   return (
     <Provider store={store}>
-      <MarketNavigator />
+      <AppNavigator />
     </Provider>
   );
 }

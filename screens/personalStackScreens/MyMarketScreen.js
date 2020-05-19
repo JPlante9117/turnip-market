@@ -1,13 +1,13 @@
 import React, { useEffect, useState, useCallback } from 'react'
-import { View, ImageBackground, StyleSheet, Dimensions, Button, Modal, Alert } from 'react-native'
+import { View, ImageBackground, StyleSheet, Dimensions, Button } from 'react-native'
 import DefaultText from '../../components/DefaultText'
 import { HeaderButtons, Item } from 'react-navigation-header-buttons'
 import CustomHeaderButton from '../../components/CustomHeaderButton'
 import { LineChart } from 'react-native-chart-kit'
 import { MainColors } from '../../constants/MainColors'
-import IslandPriceModal from '../../components/IslandPriceModal'
 import { fetchPrices } from '../../store/actions/islandPricesActions'
 import { useDispatch, useSelector } from 'react-redux'
+import Card from '../../components/Card'
 
 const MyMarketScreen = props => {
     
@@ -54,7 +54,7 @@ const MyMarketScreen = props => {
 
     return(
         <ImageBackground style={styles.container} source={require('../../assets/bgtest.png')}>
-            <View style={styles.wrapper}>
+            <Card>
                 <View style={styles.textContainer}>
                     <DefaultText style={styles.header}>This Week's Prices</DefaultText>
                 </View>
@@ -90,7 +90,7 @@ const MyMarketScreen = props => {
                 <View style={styles.buttonContainer}>
                     <Button title='Add Price' color={MainColors.cardHeaderText} onPress={() => props.navigation.navigate("UpdateMarket")}/>
                 </View>
-            </View>
+            </Card>
         </ImageBackground>
     )
 }

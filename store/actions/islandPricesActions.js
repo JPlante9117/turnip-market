@@ -6,21 +6,22 @@ export const GET_PRICES = 'GET_PRICES'
 export const INIT_PRICES = 'INIT_PRICES'
 
 export const fetchPrices = () => {
-    return async (dispatch) => {
+    return async (dispatch, getState) => {
+        const userId = getState().authentication.uid
         try {
-            const response = await fetch('https://sow-joan.firebaseio.com/islandprices.json')
+            const response = await fetch(`https://sow-joan.firebaseio.com/users/${userId}/islandPrices.json`)
 
             if(!response.ok){
                 console.log('UH OH!!')
             }
 
             const resData = await response.json()
-            const loadedPrices = []
+            console.log('resData is:', resData)
+            return
 
             for(const key in resData){
                 loadedPrices.push(new WeeklyTracker(
                     key,
-                    resData[key].userId,
                     resData[key].values,
                     resData[key].latest
                 ))
@@ -28,8 +29,7 @@ export const fetchPrices = () => {
 
             dispatch({
                 type: GET_PRICES,
-                islandPrices: loadedPrices,
-                myIslandPrices: loadedPrices.filter(isle => isle.userId == 1)
+                myIslandPrices: loadedPrices
             })
         } catch(err){
             throw err
@@ -37,7 +37,29 @@ export const fetchPrices = () => {
     }
 }
 
-export const initPrices = uid => {
+export const initPrices = (userId) => {
+    return async (dispatch) => {
+        const newTracker = new WeeklyTracker(new Date(), userId)
+        try {
+            const response = await fetch(`https://sow-joan.firebaseio.com/users/${userId}/islandPrices.json`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    userId: newTracker.userId,
+                    values: newTracker.values,
+                    latest: newTracker.latest
+                })
+            })
+
+            const resData = await response.json()
+            console.log(resData)
+            return
+        } catch(err){
+            console.log(err)
+        }
+    }
     return {
         type: INIT_PRICES,
         id: new Date(),

@@ -39,7 +39,7 @@ export const fetchPostings = () => {
 
 export const createPosting = postingData => {
     return async (dispatch, getState) => {
-
+        const userId = getState().authentication.uid
         try {
             const response = await fetch(`https://sow-joan.firebaseio.com/postings.json`,
             {
@@ -48,7 +48,7 @@ export const createPosting = postingData => {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    userId: 'u1',
+                    userId: userId,
                     price: postingData.price,
                     ask: postingData.ask,
                     queueLink: postingData.link,
