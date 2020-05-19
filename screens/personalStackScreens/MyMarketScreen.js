@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react'
-import { View, ImageBackground, StyleSheet, Dimensions, Button, InteractionManager } from 'react-native'
+import { View, ImageBackground, StyleSheet, Dimensions, Button, InteractionManager, ActivityIndicator } from 'react-native'
 import DefaultText from '../../components/DefaultText'
 import { HeaderButtons, Item } from 'react-navigation-header-buttons'
 import CustomHeaderButton from '../../components/CustomHeaderButton'
@@ -12,13 +12,15 @@ import IslandChart from '../../components/IslandChart'
 
 const MyMarketScreen = props => {
     
-    const [isLoading, setIsLoading] = useState(false)
+    const [isLoading, setIsLoading] = useState(true)
     const state = useSelector(state => state.islandPrices.myIslandPrices)
     const dispatch = useDispatch()
 
     const loadPrices = useCallback(async () => {
+        setIsLoading(true)
         try {
             await dispatch(fetchPrices())
+            setIsLoading(false)
         } catch (err){
             console.log(err)
         }
@@ -41,15 +43,15 @@ const MyMarketScreen = props => {
                 <View style={styles.textContainer}>
                     <DefaultText style={styles.header}>This Week's Prices</DefaultText>
                 </View>
-                <IslandChart data={state.values} />
+                {isLoading ? <ActivityIndicator size='large' color={MainColors.cardText}/> : <IslandChart data={state.values} />}
                 <View style={styles.netContainer}>
                     <View style={styles.netCol}>
                         <DefaultText style={styles.net}>Today's Price: </DefaultText>
-                        <DefaultText style={styles.bells}>{state.latest} bells</DefaultText>
+                        <DefaultText style={styles.bells}>{isLoading ? "..." : state.latest} bells</DefaultText>
                     </View>
                     <View style={styles.netCol}>
                         <DefaultText style={styles.net}>Current Net:</DefaultText>
-                        <DefaultText style={{fontSize: 20, color: net > 0 ? 'green' : 'red'}}>{net > 0 ? "+" + net : net} bells</DefaultText>
+                        <DefaultText style={{fontSize: 20, color: net > 0 ? 'green' : 'red'}}>{isLoading ? "..." : net > 0 ? "+" + net : net} bells</DefaultText>
                     </View>
                 </View>
                 

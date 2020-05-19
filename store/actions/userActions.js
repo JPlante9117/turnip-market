@@ -46,16 +46,6 @@ export const initUserSection = (userId) => {
                 })
             })
 
-            console.log(response)
-
-            if(!response.ok){
-                console.log("ooooops")
-            }
-
-            const resData = await response.json()
-
-            console.log(resData)
-
         } catch(err){
             console.log(err)
         }
