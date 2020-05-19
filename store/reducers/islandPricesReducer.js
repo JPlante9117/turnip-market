@@ -18,20 +18,9 @@ export default (state = initialState, action) => {
                 }
             }
         case UPDATE_PRICES:
-            let selectedDay = action.updatedDays.day
-            let selectedPrice = action.updatedDays.price
-            let updatedValues = [...state.myIslandPrices.values]
-            updatedValues[selectedDay] = selectedPrice
-            let latestValue
-            for (const index in updatedValues){
-                if(updatedValues[index] === 0 && index !== 0){
-                    latestValue = updatedValues[index - 1]
-                    break
-                }
-            }
             let updatedIsland = {
-                values: updatedValues,
-                latest: latestValue
+                values: action.values,
+                latest: action.latest
             }
             return {
                 myIslandPrices: updatedIsland

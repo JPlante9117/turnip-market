@@ -35,16 +35,63 @@ export const fetchPrices = () => {
     }
 }
 
+export const updatePrices = priceData => {
+    return async (dispatch, getState) => {
+        const userId = await getState().authentication.uid
+        const token = await getState().authentication.token
+        try{
+            const response = await fetch(`https://sow-joan.firebaseio.com/userData.json?auth=${token}`)
+            const resData = await response.json()
+            let name
+            let data
+            for(const key in resData){
+                if(resData[key].data.userId === userId){
+                    name = key
+                    data = resData[key]
+                    break
+                } 
+            }
+
+            let newValues = data.islandPrices.values
+            newValues[priceData.day] = priceData.price
+
+            let latestValue
+            for (const index in newValues){
+                if(newValues[index] === 0 && index !== 0){
+                    latestValue = newValues[index - 1]
+                    break
+                }
+            }
+
+            await fetch(`https://sow-joan.firebaseio.com/userData/${name}.json?auth=${token}`, {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    data: data.data,
+                    islandPrices: {
+                        values: newValues,
+                        latest: latestValue
+                    }
+                })
+            })
+
+            dispatch({
+                type: UPDATE_PRICES,
+                values: newValues,
+                latest: latestValue
+            })
+
+        } catch(err){
+            console.log(err)
+        }
+    }
+}
+
 export const resetPrices = id => {
     return{
         type: RESET_PRICES,
         id: id
-    }
-}
-
-export const updatePrices = priceData => {
-    return {
-        type: UPDATE_PRICES,
-        updatedDays: priceData
     }
 }
