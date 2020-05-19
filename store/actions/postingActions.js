@@ -63,6 +63,7 @@ export const createPosting = postingData => {
                 type: CREATE_POSTING,
                 posting: {
                     id: resData.name,
+                    userId: userId,
                     price: postingData.price,
                     ask: postingData.ask,
                     link: postingData.link,

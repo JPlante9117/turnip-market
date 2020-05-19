@@ -11,7 +11,7 @@ export default (state = initialState, action) => {
         case AUTHENTICATE:
             return {
                 token: action.token,
-                uid: action.userId,
+                uid: action.uid,
                 didTryAutoLogin: true
             }
         case SET_DID_TRY_AL:
