@@ -1,21 +1,19 @@
 import React, { useEffect, useState, useCallback } from 'react'
-import { View, ImageBackground, StyleSheet, Dimensions, Button } from 'react-native'
+import { View, ImageBackground, StyleSheet, Dimensions, Button, InteractionManager } from 'react-native'
 import DefaultText from '../../components/DefaultText'
 import { HeaderButtons, Item } from 'react-navigation-header-buttons'
 import CustomHeaderButton from '../../components/CustomHeaderButton'
-import { LineChart } from 'react-native-chart-kit'
 import { MainColors } from '../../constants/MainColors'
 import { fetchPrices } from '../../store/actions/islandPricesActions'
 import { useDispatch, useSelector } from 'react-redux'
 import Card from '../../components/Card'
+import { useFocusEffect } from '@react-navigation/native'
+import IslandChart from '../../components/IslandChart'
 
 const MyMarketScreen = props => {
     
     const [isLoading, setIsLoading] = useState(false)
-    const [values, setValues] = useState([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
-    const [latestVal, setLatestVal] = useState(0)
-    const [modalVis, setModalVis] = useState(false)
-    const state = useSelector(state => state.islandPrices.myIslandPrices.values)
+    const state = useSelector(state => state.islandPrices.myIslandPrices)
     const dispatch = useDispatch()
 
     const loadPrices = useCallback(async () => {
@@ -26,60 +24,28 @@ const MyMarketScreen = props => {
         }
     }, [dispatch])
 
-    useEffect(() => {
-        loadPrices()
-    }, [dispatch, loadPrices])
+    useFocusEffect(
+        useCallback(() => {
+            const task = InteractionManager.runAfterInteractions(loadPrices)
 
-    
+            return () => task.cancel()
+        }, [loadPrices])
+    )
 
-    const onInputSubmit = useCallback((day, val) => {
-        console.log('submit worked')
-        let allVals = values
-        allVals[day] = parseInt(val)
-        setValues(allVals)
-        setModalVis(!modalVis)
-    }, [setValues, setModalVis])
-
-    const net = latestVal - values[0]
-    
-    const data = {
-        labels: ["Sun", "Mon", "", "Tues", "", "Wed", "", "Thurs", "", "Fri", "", "Sat", ""],
-        datasets: [
-          {
-            data: values,
-            strokeWidth: 2
-          }
-        ],
-      };
+    const net = state.latest - state.values[0]
 
     return(
         <ImageBackground style={styles.container} source={require('../../assets/bgtest.png')}>
             <Card>
+                <View>
                 <View style={styles.textContainer}>
                     <DefaultText style={styles.header}>This Week's Prices</DefaultText>
                 </View>
-                <LineChart
-                    data={data}
-                    width={Dimensions.get('window').width - 10}
-                    height={200}
-                    chartConfig={{
-                        backgroundGradientFrom: MainColors.cardBackground,
-                        backgroundGradientTo: MainColors.paleBackground,
-                        color: (opacity = 1) => `rgba(95, 78, 58, ${opacity})`,
-                        style: {
-                        borderRadius: 16
-                        },
-                        decimalPlaces: 0
-                    }}
-                    bezier
-                    style={{
-                        borderRadius: 10
-                    }}
-                />
+                <IslandChart data={state.values} />
                 <View style={styles.netContainer}>
                     <View style={styles.netCol}>
                         <DefaultText style={styles.net}>Today's Price: </DefaultText>
-                        <DefaultText style={styles.bells}>{latestVal} bells</DefaultText>
+                        <DefaultText style={styles.bells}>{state.latest} bells</DefaultText>
                     </View>
                     <View style={styles.netCol}>
                         <DefaultText style={styles.net}>Current Net:</DefaultText>
@@ -89,6 +55,7 @@ const MyMarketScreen = props => {
                 
                 <View style={styles.buttonContainer}>
                     <Button title='Add Price' color={MainColors.cardHeaderText} onPress={() => props.navigation.navigate("UpdateMarket")}/>
+                </View>
                 </View>
             </Card>
         </ImageBackground>
@@ -100,11 +67,6 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center'
-    },
-    wrapper: {
-        alignItems: 'center',
-        backgroundColor: MainColors.cardBackground,
-        borderRadius: 10
     },
     header: {
         fontSize: 30,

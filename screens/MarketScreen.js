@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useEffect } from 'react'
-import { View, StyleSheet, ImageBackground, FlatList, ActivityIndicator, InteractionManager } from 'react-native'
+import { StyleSheet, ImageBackground, FlatList, ActivityIndicator, InteractionManager } from 'react-native'
 import MarketCard from '../components/MarketCard'
 import { HeaderButtons, Item } from 'react-navigation-header-buttons'
 import CustomHeaderButton from '../components/CustomHeaderButton'

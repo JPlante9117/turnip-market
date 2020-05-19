@@ -1,6 +1,7 @@
 import { AsyncStorage } from "react-native"
 import { API_KEY } from "../../assets/API"
 import { initPrices } from "./islandPricesActions"
+import { initUserSection } from "./userActions"
 
 export const AUTHENTICATE = 'AUTHENTICATE'
 export const SET_DID_TRY_AL = 'SET_DID_TRY_AL'
@@ -74,7 +75,7 @@ export const signup = (email, password) => {
         dispatch(authenticate(resData.localId, resData.idToken, parseInt(resData.expiresIn) * 1000))
         const expirationDate = new Date(new Date().getTime() + parseInt(resData.expiresIn) * 1000).toISOString()
         saveDataToStorage(resData.idToken, resData.localId, expirationDate)
-        initPrices(resData.localId)
+        dispatch(initUserSection(resData.localId))
     }
 }
 

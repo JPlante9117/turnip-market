@@ -7,63 +7,31 @@ export const INIT_PRICES = 'INIT_PRICES'
 
 export const fetchPrices = () => {
     return async (dispatch, getState) => {
-        const userId = getState().authentication.uid
+        const userId = await getState().authentication.uid
         try {
-            const response = await fetch(`https://sow-joan.firebaseio.com/users/${userId}/islandPrices.json`)
-
+            const response = await fetch(`https://sow-joan.firebaseio.com/userData.json`)
             if(!response.ok){
                 console.log('UH OH!!')
             }
 
             const resData = await response.json()
-            console.log('resData is:', resData)
-            return
+
+            let data
 
             for(const key in resData){
-                loadedPrices.push(new WeeklyTracker(
-                    key,
-                    resData[key].values,
-                    resData[key].latest
-                ))
+                if(resData[key].data.userId === userId){
+                    data = resData[key].islandPrices
+                    break
+                } 
             }
 
             dispatch({
                 type: GET_PRICES,
-                myIslandPrices: loadedPrices
+                myIslandPrices: data
             })
         } catch(err){
             throw err
         }
-    }
-}
-
-export const initPrices = (userId) => {
-    return async (dispatch) => {
-        const newTracker = new WeeklyTracker(new Date(), userId)
-        try {
-            const response = await fetch(`https://sow-joan.firebaseio.com/users/${userId}/islandPrices.json`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    userId: newTracker.userId,
-                    values: newTracker.values,
-                    latest: newTracker.latest
-                })
-            })
-
-            const resData = await response.json()
-            console.log(resData)
-            return
-        } catch(err){
-            console.log(err)
-        }
-    }
-    return {
-        type: INIT_PRICES,
-        id: new Date(),
-        userId: uid
     }
 }
 
