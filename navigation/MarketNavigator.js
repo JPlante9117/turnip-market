@@ -13,6 +13,7 @@ import DefaultText from '../components/DefaultText'
 import { logout } from '../store/actions/authActions'
 import { useDispatch } from 'react-redux'
 import SettingsScreen, { settingsScreenOptions } from '../screens/settings/SettingsScreen'
+import ChangeSettingsScreen, { changeSettingsScreenOptions } from '../screens/settings/ChangeSettingsScreen'
 
 const Stack = createStackNavigator()
 const Drawer = createDrawerNavigator()
@@ -95,6 +96,11 @@ const MarketNavigator = props => {
                     name="Settings"
                     component={SettingsScreen}
                     options={settingsScreenOptions}
+                />
+                <Stack.Screen
+                    name="ChangeSettings"
+                    component={ChangeSettingsScreen}
+                    options={changeSettingsScreenOptions}
                 />
             </Stack.Navigator>
         )

@@ -1,15 +1,19 @@
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import { StyleSheet, View, ImageBackground, Button } from 'react-native'
 import DefaultText from '../../components/DefaultText'
 import { HeaderButtons, Item } from 'react-navigation-header-buttons'
 import CustomHeaderButton from '../../components/CustomHeaderButton'
+import Card from '../../components/Card'
 
 const SettingsScreen = props => {
 
     return(
-        <View>
-            <DefaultText>SETTINGS!</DefaultText>
-        </View>
+        <ImageBackground style={{flex: 1}} source={require('../../assets/bgtest.png')}>
+            <Card>
+                <DefaultText>SETTINGS!!</DefaultText>
+                <Button title="Change" onPress={() => props.navigation.navigate("ChangeSettings")}/>
+            </Card>
+        </ImageBackground>
     )
 
 }
