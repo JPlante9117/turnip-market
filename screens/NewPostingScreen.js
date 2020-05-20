@@ -38,13 +38,13 @@ const NewPostingScreen = props => {
     
     const initialState = {
         inputVals: {
-            price: '',
+            price: props.route.params.price,
             ask: '',
             link: '',
             image: ''
         },
         inputValidities: {
-            price: false,
+            price: props.route.params.price !== '' ? true : false,
             ask: false,
             link: true,
             image: true
@@ -79,11 +79,12 @@ const NewPostingScreen = props => {
         setError(null)
         try {
             await dispatch(createPosting(formState.inputVals))
+            console.log("Should Go Back Now...")
+            setIsLoading(false)
             props.navigation.goBack()
         } catch(err) {
             setError(err)
         }
-        setIsLoading(false)
     }, [dispatch, formState])
 
     const imageTakenHandler = imgPath => {

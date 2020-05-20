@@ -67,7 +67,7 @@ export const marketScreenOptions = navData => {
         ),
         headerRight: () => (
             <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
-                <Item iconName="plus-circle" iconSize={30} onPress={() => navData.navigation.navigate('NewPosting', {userId: 'u1'})}/>
+                <Item iconName="plus-circle" iconSize={30} onPress={() => navData.navigation.navigate('NewPosting', {price: ''})}/>
             </HeaderButtons>
         )
     }

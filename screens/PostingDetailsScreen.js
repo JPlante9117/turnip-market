@@ -12,6 +12,7 @@ import { deletePosting } from '../store/actions/postingActions'
 const PostingDetailScreen = props => {
 
     const posting = useSelector(state => state.postings.postings.find(post => post.id === props.route.params.id))
+    const currentUser = useSelector(state => state.authentication)
     const dispatch = useDispatch()
 
     const deletePostHandler = useCallback(postId => {
@@ -19,8 +20,8 @@ const PostingDetailScreen = props => {
     }, [dispatch, deletePosting])
 
     useEffect(() => {
-        props.navigation.setParams({deletePost: deletePostHandler})
-    }, [deletePostHandler])
+        props.navigation.setParams({deletePost: deletePostHandler, currentUser: currentUser.uid})
+    }, [deletePostHandler, currentUser])
 
     return(
         <ImageBackground style={{flex: 1}}source={require('../assets/bgtest.png')}>
@@ -69,14 +70,18 @@ const PostingDetailScreen = props => {
 export const postingDetailsOptions = navData => {
     return {
         title: `${navData.route.params.user}'s Posting`,
-        headerRight: () => (
-            <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
-                <Item iconName="trash" iconSize={30} onPress={() => {
-                    navData.route.params.deletePost(navData.route.params.id)
-                    navData.navigation.goBack()
-                }}/>
-            </HeaderButtons>
-        )
+        headerRight: () => {
+            if(navData.route.params.currentUser === navData.route.params.user){
+                return (
+                    <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
+                        <Item iconName="trash" iconSize={30} onPress={() => {
+                            navData.route.params.deletePost(navData.route.params.id)
+                            navData.navigation.goBack()
+                        }}/>
+                    </HeaderButtons>
+                )
+            }
+        }
     }
 }
 

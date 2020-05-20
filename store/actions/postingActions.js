@@ -87,7 +87,6 @@ export const deletePosting = postId => {
                     'Content-Type': 'application/json'
                 }
             })
-            console.log('1')
             dispatch({
                 type: DELETE_POSTING,
                 pid: postId
