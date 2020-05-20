@@ -79,7 +79,6 @@ const NewPostingScreen = props => {
         setError(null)
         try {
             await dispatch(createPosting(formState.inputVals))
-            console.log("Should Go Back Now...")
             setIsLoading(false)
             props.navigation.goBack()
         } catch(err) {

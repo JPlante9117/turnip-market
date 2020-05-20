@@ -15,13 +15,12 @@ export default (state = initialState, action) => {
             }
         case CREATE_POSTING:
             let postData = action.posting
-            const newPosting = new Posting(postData.id, posting.userId, parseInt(postData.price), postData.ask, postData.link, new Date(), postData.image)
+            const newPosting = new Posting(postData.id, postData.userId, postData.price, postData.ask, postData.link, new Date(), postData.image)
             return {
                 postings: state.postings.concat(newPosting),
                 myPostings: state.myPostings.concat(newPosting)
             }
         case DELETE_POSTING:
-            console.log('2')
             return{
                 postings: state.postings.filter(post => post.id !== action.pid),
                 myPostings: state.myPostings.filter(post => post.id !== action.pid)
