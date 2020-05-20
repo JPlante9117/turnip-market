@@ -1,6 +1,6 @@
 import React, { useReducer, useCallback, useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { View, Button, Alert, Picker, StyleSheet, ImageBackground, ActivityIndicator } from 'react-native'
+import { View, Button, Alert, Picker, StyleSheet, ImageBackground, ActivityIndicator, CheckBox } from 'react-native'
 import DefaultText from './DefaultText'
 import Input from './Input'
 import { MainColors } from '../constants/MainColors'
@@ -37,11 +37,13 @@ const IslandPriceModal = props => {
     const initialState = {
         inputVals: {
             price: 0,
-            day: 0
+            day: 0,
+            checkbox: false
         },
         inputValidities: {
             price: false,
-            day: true
+            day: true,
+            checkbox: true
         },
         formValid: true
     }
@@ -71,6 +73,9 @@ const IslandPriceModal = props => {
         try {
             setIsLoading(true)
             await dispatch(updatePrices(formState.inputVals))
+            if(formState.inputVals.checkbox){
+                props.checkboxChecked(formState.inputVals.price)
+            }
             setIsLoading(false)
             props.closeModal()
         } catch(err) {
@@ -121,6 +126,20 @@ const IslandPriceModal = props => {
                 initialValid={false}
                 required
             />
+
+            <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                <DefaultText style={styles.checkboxText}>Also Create Posting?</DefaultText>
+                <CheckBox 
+                    value={formState.inputVals.checkbox}
+                    onValueChange={(val) => formDispatch({
+                        type: 'UPDATE',
+                        value: val,
+                        validity: true,
+                        input: 'checkbox'
+                    })}
+                />
+            </View>
+
             {isLoading ? <ActivityIndicator size="small" color={MainColors.cardText} /> :
             <View style={styles.buttonContainer}>
                 <Button title="Submit" color={MainColors.bellsBlue} onPress={() => submitHandler(formState.inputVals.day, formState.inputVals.price)}/>
@@ -163,6 +182,9 @@ const styles = StyleSheet.create({
         width: '70%',
         justifyContent: 'space-between',
         marginVertical: 10
+    },
+    checkboxText: {
+        color: MainColors.cardText
     }
 })
 

@@ -116,7 +116,7 @@ const NewPostingScreen = props => {
                         keyboardType='numeric'
                         placeHolder='Enter Turnip Price'
                         onInputChange={inputChangeHandler}
-                        initialValue={''}
+                        initialValue={props.route.params.price ? props.route.params.price : ''}
                         initialValid={false}
                         required
                     />

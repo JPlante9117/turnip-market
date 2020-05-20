@@ -1,5 +1,5 @@
-import { UPDATE_PRICES, RESET_PRICES, GET_PRICES, INIT_PRICES } from "../actions/islandPricesActions"
-import WeeklyTracker from "../../models/weeklytracker"
+import { UPDATE_PRICES, RESET_PRICES, GET_PRICES } from "../actions/islandPricesActions"
+import { useNavigation } from "@react-navigation/native"
 
 const initialState = {
     myIslandPrices: {
@@ -22,6 +22,7 @@ export default (state = initialState, action) => {
                 values: action.values,
                 latest: action.latest
             }
+
             return {
                 myIslandPrices: updatedIsland
             }

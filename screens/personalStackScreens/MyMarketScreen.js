@@ -10,13 +10,26 @@ import Card from '../../components/Card'
 import { useFocusEffect } from '@react-navigation/native'
 import IslandChart from '../../components/IslandChart'
 import IslandPriceModal from '../../components/IslandPriceModal'
+import { specificNav } from '../../navigation/MarketNavigator'
 
 const MyMarketScreen = props => {
     
     const [isLoading, setIsLoading] = useState(true)
     const [modalVis, setModalVis] = useState(false)
+    const [wantedPosting, setWantedPosting] = useState({
+        checked: false,
+        price: 0
+    })
     const state = useSelector(state => state.islandPrices.myIslandPrices)
     const dispatch = useDispatch()
+
+    if(wantedPosting.checked){
+        setWantedPosting({
+            ...wantedPosting,
+            checked: false
+        })
+        props.navigation.navigate('NewPosting', {price: wantedPosting.price})
+    }
 
     const loadPrices = useCallback(async () => {
         setIsLoading(true)
@@ -37,6 +50,13 @@ const MyMarketScreen = props => {
             console.log(err)
         }
     })
+
+    const postingDataSetter = price => {
+        setWantedPosting({
+            checked: true,
+            price: price
+        })
+    }
 
     useFocusEffect(
         useCallback(() => {
@@ -59,7 +79,7 @@ const MyMarketScreen = props => {
                 }}
             >
                 <View style={styles.modalWrapper}>
-                    <IslandPriceModal closeModal={() => setModalVis(false)} />
+                    <IslandPriceModal closeModal={() => setModalVis(false)} checkboxChecked={postingDataSetter}/>
                 </View>
             </Modal>
             <Card>
@@ -81,7 +101,6 @@ const MyMarketScreen = props => {
                         <DefaultText style={{fontSize: 20, color: net > 0 ? 'green' : 'red'}}>{isLoading ? "..." : net > 0 ? "+" + net : net} bells</DefaultText>
                     </View>
                 </View>
-                
                 {isLoading ? <View/> : <View style={styles.buttonContainer}>
                     <Button title='Add Price' color={MainColors.bellsBlue} onPress={() => setModalVis(true)}/>
                     <Button title='Reset Week' color={'red'} onPress={resetWeek} />
