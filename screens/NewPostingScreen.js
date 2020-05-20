@@ -1,5 +1,5 @@
 import React, { useReducer, useCallback, useEffect, useState } from 'react'
-import { View, StyleSheet, ImageBackground, Button, ScrollView, TextInput, KeyboardAvoidingView, Platform, Alert } from 'react-native'
+import { View, StyleSheet, ImageBackground, Button, ScrollView, TextInput, KeyboardAvoidingView, Platform, Alert, ActivityIndicator } from 'react-native'
 import DefaultText from '../components/DefaultText'
 import { MainColors } from '../constants/MainColors'
 import { HeaderButtons, Item } from 'react-navigation-header-buttons'
@@ -100,7 +100,8 @@ const NewPostingScreen = props => {
     }, [submitHandler])
 
     return(
-<ImageBackground style={{flex: 1}}source={require('../assets/bgtest.png')}>
+    <ImageBackground style={{flex: 1}}source={require('../assets/bgtest.png')}>
+    {isLoading ? <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}><ActivityIndicator size='large' color={MainColors.paleBackground}/></View> :
     <KeyboardAvoidingView
         style={styles.screen}
         behavior={Platform.OS === 'ios' ? 'padding' : null}
@@ -145,7 +146,7 @@ const NewPostingScreen = props => {
                 </View>
             </View>
         </ScrollView>
-        </KeyboardAvoidingView>
+        </KeyboardAvoidingView>}
         </ImageBackground>
     )
 }

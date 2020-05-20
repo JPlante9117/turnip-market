@@ -14,7 +14,7 @@ const MarketCard = props => {
         <View style={{...styles.card, overflow: 'hidden'}}>
         <Touchable onPress={props.handlePress}>
             <View style={styles.card}>
-                <Image style={styles.circle} source={{uri: 'https://pbs.twimg.com/media/ESOmkwIX0AAO2Jj.png'}} />
+                <Image style={styles.circle} source={{uri: 'https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png'}} />
                 <View style={styles.column}>
                     <DefaultText style={styles.header}>USER</DefaultText>
                     <DefaultText>{props.user}</DefaultText>
