@@ -26,9 +26,7 @@ export default (state = initialState, action) => {
                 myIslandPrices: updatedIsland
             }
         case RESET_PRICES:
-            return {
-                myIslandPrices: initialState
-            }
+            return initialState
         default:
             return state
     }
