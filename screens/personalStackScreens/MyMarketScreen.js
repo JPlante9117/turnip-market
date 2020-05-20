@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react'
-import { View, ImageBackground, StyleSheet, Dimensions, Button, InteractionManager, ActivityIndicator } from 'react-native'
+import { View, ImageBackground, StyleSheet, Dimensions, Button, InteractionManager, ActivityIndicator, Modal, Alert } from 'react-native'
 import DefaultText from '../../components/DefaultText'
 import { HeaderButtons, Item } from 'react-navigation-header-buttons'
 import CustomHeaderButton from '../../components/CustomHeaderButton'
@@ -9,10 +9,12 @@ import { useDispatch, useSelector } from 'react-redux'
 import Card from '../../components/Card'
 import { useFocusEffect } from '@react-navigation/native'
 import IslandChart from '../../components/IslandChart'
+import IslandPriceModal from '../../components/IslandPriceModal'
 
 const MyMarketScreen = props => {
     
     const [isLoading, setIsLoading] = useState(true)
+    const [modalVis, setModalVis] = useState(false)
     const state = useSelector(state => state.islandPrices.myIslandPrices)
     const dispatch = useDispatch()
 
@@ -38,6 +40,18 @@ const MyMarketScreen = props => {
 
     return(
         <ImageBackground style={styles.container} source={require('../../assets/bgtest.png')}>
+            <Modal
+                animationType="fade"
+                transparent={true}
+                visible={modalVis}
+                onRequestClose={() => {
+                    Alert.alert("Please close the modal first before navigating")
+                }}
+            >
+                <View style={styles.modalWrapper}>
+                    <IslandPriceModal closeModal={() => setModalVis(false)}/>
+                </View>
+            </Modal>
             <Card>
                 <View>
                 <View style={styles.textContainer}>
@@ -56,7 +70,7 @@ const MyMarketScreen = props => {
                 </View>
                 
                 <View style={styles.buttonContainer}>
-                    <Button title='Add Price' color={MainColors.cardHeaderText} onPress={() => props.navigation.navigate("UpdateMarket")}/>
+                    <Button title='Add Price' color={MainColors.cardHeaderText} onPress={() => setModalVis(true)}/>
                 </View>
                 </View>
             </Card>
