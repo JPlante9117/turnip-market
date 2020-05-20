@@ -69,7 +69,6 @@ export const updatePrices = priceData => {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    data: data.data,
                     islandPrices: {
                         values: newValues,
                         latest: latestValue
@@ -89,9 +88,40 @@ export const updatePrices = priceData => {
     }
 }
 
-export const resetPrices = id => {
-    return{
-        type: RESET_PRICES,
-        id: id
+export const resetPrices = () => {
+    return async (dispatch, getState) => {
+        const userId = await getState().authentication.uid
+        const token = await getState().authentication.token
+        try{
+            const response = await fetch(`https://sow-joan.firebaseio.com/userData.json?auth=${token}`)
+            const resData = await response.json()
+            let name
+            for(const key in resData){
+                if(resData[key].data.userId === userId){
+                    name = key
+                    break
+                } 
+            }
+
+            await fetch(`https://sow-joan.firebaseio.com/userData/${name}.json?auth=${token}`, {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    islandPrices: {
+                        values: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                        latest: 0
+                    }
+                })
+            })
+
+            dispatch({
+                type: RESET_PRICES
+            })
+
+        } catch(err){
+            console.log(err)
+        }
     }
 }

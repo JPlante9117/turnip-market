@@ -71,8 +71,8 @@ const IslandPriceModal = props => {
         try {
             setIsLoading(true)
             await dispatch(updatePrices(formState.inputVals))
-            props.closeModal()
             setIsLoading(false)
+            props.closeModal()
         } catch(err) {
             throw err
         }

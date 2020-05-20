@@ -4,7 +4,7 @@ import DefaultText from '../../components/DefaultText'
 import { HeaderButtons, Item } from 'react-navigation-header-buttons'
 import CustomHeaderButton from '../../components/CustomHeaderButton'
 import { MainColors } from '../../constants/MainColors'
-import { fetchPrices } from '../../store/actions/islandPricesActions'
+import { fetchPrices, resetPrices } from '../../store/actions/islandPricesActions'
 import { useDispatch, useSelector } from 'react-redux'
 import Card from '../../components/Card'
 import { useFocusEffect } from '@react-navigation/native'
@@ -27,6 +27,16 @@ const MyMarketScreen = props => {
             console.log(err)
         }
     }, [dispatch])
+
+    const resetWeek = useCallback(async () => {
+        setIsLoading(true)
+        try{
+            await dispatch(resetPrices())
+            setIsLoading(false)
+        }catch(err){
+            console.log(err)
+        }
+    })
 
     useFocusEffect(
         useCallback(() => {
@@ -57,7 +67,10 @@ const MyMarketScreen = props => {
                 <View style={styles.textContainer}>
                     <DefaultText style={styles.header}>This Week's Prices</DefaultText>
                 </View>
-                {isLoading ? <ActivityIndicator size='large' color={MainColors.cardText}/> : <IslandChart data={state.values} />}
+                {isLoading ? <View style={styles.updateContainer}>
+                    <DefaultText style={styles.updateText}>Checking for Price Changes...</DefaultText>
+                    <ActivityIndicator size='large' color={MainColors.paleBackground}/>
+                    </View> : <IslandChart data={state.values} />}
                 <View style={styles.netContainer}>
                     <View style={styles.netCol}>
                         <DefaultText style={styles.net}>Today's Price: </DefaultText>
@@ -69,9 +82,10 @@ const MyMarketScreen = props => {
                     </View>
                 </View>
                 
-                <View style={styles.buttonContainer}>
-                    <Button title='Add Price' color={MainColors.cardHeaderText} onPress={() => setModalVis(true)}/>
-                </View>
+                {isLoading ? <View/> : <View style={styles.buttonContainer}>
+                    <Button title='Add Price' color={MainColors.bellsBlue} onPress={() => setModalVis(true)}/>
+                    <Button title='Reset Week' color={'red'} onPress={resetWeek} />
+                </View>}
                 </View>
             </Card>
         </ImageBackground>
@@ -120,13 +134,23 @@ const styles = StyleSheet.create({
     },
     buttonContainer: {
         margin: 10,
-        width: Dimensions.get('window').width - 40
+        width: Dimensions.get('window').width - 40,
+        flexDirection: 'row',
+        justifyContent: 'space-around',
     },
     modalWrapper: {
         justifyContent: 'center',
         alignItems: 'center',
         flex: 1,
         backgroundColor: '#00000080'
+    },
+    updateContainer: {
+        alignItems: 'center'
+    },
+    updateText: {
+        color: MainColors.paleBackground,
+        fontFamily: 'varela-round',
+        fontSize: 20
     }
 })
 

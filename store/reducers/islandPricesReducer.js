@@ -26,23 +26,8 @@ export default (state = initialState, action) => {
                 myIslandPrices: updatedIsland
             }
         case RESET_PRICES:
-            let isleIndex = state.islandPrices.findIndex(isl => isl.id === action.id)
-            let selectedIsle = state.islandPrices.find(isl => isl.id === action.id)
-            let resetIsland
-            if (selectedIsle) {
-                resetIsland = {
-                    ...selectedIsle,
-                    values: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                    latest: 0
-                }
-            } else {
-                resetIsland = new WeeklyTracker(new Date().toString(), 'u1')
-            }
-            let updatedIslesList = [...state.islandPrices]
-            if (isleIndex) {
-                updatedIslesList[isleIndex] = resetIsland
-            } else {
-                updatedIslesList.concat(resetIsland)
+            return {
+                myIslandPrices: initialState
             }
         default:
             return state
