@@ -55,6 +55,7 @@ class Input extends React.Component {
                     value={this.state.value.toString()}
                     onBlur={this.lostFocusHandler}
                     onChangeText={this.textChangeHandler}
+                    placeholderTextColor={MainColors.cardText}
                 />
                 {!this.state.isValid && this.state.touched && (
                     <View style={styles.errorContainer}><Text style={styles.errorText}>{this.props.errorText}</Text></View>

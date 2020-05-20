@@ -5,7 +5,7 @@ import DefaultText from './DefaultText'
 import Input from './Input'
 import { MainColors } from '../constants/MainColors'
 import { updatePrices } from '../store/actions/islandPricesActions'
-import { TouchableWithoutFeedback, TouchableOpacity } from 'react-native-gesture-handler'
+import { TouchableWithoutFeedback, TouchableOpacity, ScrollView } from 'react-native-gesture-handler'
 
 const formReducer = (state, action) => {
     switch(action.type){
@@ -81,6 +81,7 @@ const IslandPriceModal = props => {
     return (
         <View style={styles.wrapper}>
             <DefaultText style={styles.header}>Time of Price:</DefaultText>
+            <ScrollView contentContainerStyle={{alignItems: 'center'}}>
             <View style={styles.pickerWrapper}>
                 <Picker
                     selectedValue={formState.inputVals.day}
@@ -109,22 +110,23 @@ const IslandPriceModal = props => {
                 </Picker>
             </View>
             <Input
-            id='price'
-            label='Turnip Price'
-            errorText='Please Enter a Price'
-            returnKeyType='next'
-            keyboardType='numeric'
-            placeholder='Enter a Price'
-            onInputChange={inputChangeHandler}
-            initialValue={0}
-            initialValid={false}
-            required 
+                id='price'
+                label='Turnip Price'
+                errorText='Please Enter a Price'
+                returnKeyType='next'
+                keyboardType='numeric'
+                placeholder='Enter a Price'
+                onInputChange={inputChangeHandler}
+                initialValue={0}
+                initialValid={false}
+                required
             />
             {isLoading ? <ActivityIndicator size="small" color={MainColors.cardText} /> :
             <View style={styles.buttonContainer}>
                 <Button title="Submit" color={MainColors.bellsBlue} onPress={() => submitHandler(formState.inputVals.day, formState.inputVals.price)}/>
                 <Button title="Cancel" onPress={props.closeModal} color={MainColors.cardHeaderText} />
             </View>}
+            </ScrollView>
         </View>
     )
 }
