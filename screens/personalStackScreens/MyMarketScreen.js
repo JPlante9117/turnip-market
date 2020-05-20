@@ -49,7 +49,7 @@ const MyMarketScreen = props => {
                 }}
             >
                 <View style={styles.modalWrapper}>
-                    <IslandPriceModal closeModal={() => setModalVis(false)}/>
+                    <IslandPriceModal closeModal={() => setModalVis(false)} />
                 </View>
             </Modal>
             <Card>
@@ -120,7 +120,7 @@ const styles = StyleSheet.create({
     },
     buttonContainer: {
         margin: 10,
-        width: Dimensions.get('window').width - 30
+        width: Dimensions.get('window').width - 40
     },
     modalWrapper: {
         justifyContent: 'center',

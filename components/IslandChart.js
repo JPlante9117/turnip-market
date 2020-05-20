@@ -18,7 +18,7 @@ const IslandChart = props => {
     return (
         <LineChart
             data={data}
-            width={Dimensions.get('window').width - 10}
+            width={Dimensions.get('window').width}
             height={200}
             chartConfig={{
                 backgroundGradientFrom: MainColors.cardBackground,

@@ -1,6 +1,6 @@
-import React, { useReducer, useCallback } from 'react'
+import React, { useReducer, useCallback, useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { View, Button, Alert, Picker, StyleSheet, ImageBackground } from 'react-native'
+import { View, Button, Alert, Picker, StyleSheet, ImageBackground, ActivityIndicator } from 'react-native'
 import DefaultText from './DefaultText'
 import Input from './Input'
 import { MainColors } from '../constants/MainColors'
@@ -47,6 +47,7 @@ const IslandPriceModal = props => {
     }
 
     const [formState, formDispatch] = useReducer(formReducer, initialState)
+    const [isLoading, setIsLoading] = useState(false)
     const dispatch = useDispatch()
 
     const inputChangeHandler = useCallback((inputIdentifier, inputValue, inputValidity) => {
@@ -68,8 +69,10 @@ const IslandPriceModal = props => {
             return
         }
         try {
+            setIsLoading(true)
             await dispatch(updatePrices(formState.inputVals))
             props.closeModal()
+            setIsLoading(false)
         } catch(err) {
             throw err
         }
@@ -117,10 +120,11 @@ const IslandPriceModal = props => {
             initialValid={false}
             required 
             />
+            {isLoading ? <ActivityIndicator size="small" color={MainColors.cardText} /> :
             <View style={styles.buttonContainer}>
                 <Button title="Submit" color={MainColors.bellsBlue} onPress={() => submitHandler(formState.inputVals.day, formState.inputVals.price)}/>
                 <Button title="Cancel" onPress={props.closeModal} color={MainColors.cardHeaderText} />
-            </View>
+            </View>}
         </View>
     )
 }

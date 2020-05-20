@@ -8,7 +8,6 @@ import { MainColors } from '../constants/MainColors'
 import NewPostingScreen, { newPostingOptions } from '../screens/NewPostingScreen'
 import { Fontisto, Ionicons } from '@expo/vector-icons'
 import MyMarketScreen, { myMarketOptions } from '../screens/personalStackScreens/MyMarketScreen'
-import UpdateMarketScreen from '../screens/personalStackScreens/UpdateMarketScreen'
 import AuthScreen, { authScreenOptions } from '../screens/AuthScreen'
 import DefaultText from '../components/DefaultText'
 import { logout } from '../store/actions/authActions'
@@ -81,10 +80,6 @@ const MarketNavigator = props => {
                     name="MyMarket"
                     component={MyMarketScreen}
                     options={myMarketOptions}
-                />
-                <Stack.Screen
-                    name="UpdateMarket"
-                    component={UpdateMarketScreen}
                 />
             </Stack.Navigator>
         )
