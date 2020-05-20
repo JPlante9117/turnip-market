@@ -24,7 +24,6 @@ export const fetchPrices = () => {
                     break
                 } 
             }
-
             dispatch({
                 type: GET_PRICES,
                 myIslandPrices: data
