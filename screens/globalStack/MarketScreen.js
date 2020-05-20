@@ -1,11 +1,11 @@
 import React, { useState, useCallback, useEffect } from 'react'
 import { StyleSheet, ImageBackground, FlatList, ActivityIndicator, InteractionManager } from 'react-native'
-import MarketCard from '../components/MarketCard'
+import MarketCard from '../../components/MarketCard'
 import { HeaderButtons, Item } from 'react-navigation-header-buttons'
-import CustomHeaderButton from '../components/CustomHeaderButton'
+import CustomHeaderButton from '../../components/CustomHeaderButton'
 import { useSelector, useDispatch } from 'react-redux'
-import { fetchPostings } from '../store/actions/postingActions'
-import { MainColors } from '../constants/MainColors'
+import { fetchPostings } from '../../store/actions/postingActions'
+import { MainColors } from '../../constants/MainColors'
 import { useFocusEffect } from '@react-navigation/native'
 
 const MarketScreen = props => {
@@ -43,13 +43,13 @@ const MarketScreen = props => {
     }
 
     if (isLoading) {
-        return <ImageBackground source={require('../assets/bgtest.png')} style={styles.centered}>
+        return <ImageBackground source={require('../../assets/bgtest.png')} style={styles.centered}>
             <ActivityIndicator size='large' color={MainColors.paleBackground} />
         </ImageBackground>
     }
 
     return(
-            <ImageBackground style={styles.screen} source={require('../assets/bgtest.png')}>
+            <ImageBackground style={styles.screen} source={require('../../assets/bgtest.png')}>
                 <FlatList
                     data={posts}
                     renderItem={renderCards}

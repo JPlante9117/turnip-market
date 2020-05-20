@@ -1,13 +1,13 @@
 import React, { useReducer, useCallback, useEffect, useState } from 'react'
 import { View, StyleSheet, ImageBackground, Button, ScrollView, TextInput, KeyboardAvoidingView, Platform, Alert, ActivityIndicator } from 'react-native'
-import DefaultText from '../components/DefaultText'
-import { MainColors } from '../constants/MainColors'
+import DefaultText from '../../components/DefaultText'
+import { MainColors } from '../../constants/MainColors'
 import { HeaderButtons, Item } from 'react-navigation-header-buttons'
-import CustomHeaderButton from '../components/CustomHeaderButton'
-import ImagePicker from '../components/ImagePicker'
-import Input from '../components/Input'
+import CustomHeaderButton from '../../components/CustomHeaderButton'
+import ImagePicker from '../../components/ImagePicker'
+import Input from '../../components/Input'
 import { useDispatch } from 'react-redux'
-import { createPosting } from '../store/actions/postingActions'
+import { createPosting } from '../../store/actions/postingActions'
 
 const formReducer = (state, action) => {
     switch(action.type){
@@ -100,7 +100,7 @@ const NewPostingScreen = props => {
     }, [submitHandler])
 
     return(
-    <ImageBackground style={{flex: 1}}source={require('../assets/bgtest.png')}>
+    <ImageBackground style={{flex: 1}}source={require('../../assets/bgtest.png')}>
     {isLoading ? <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}><ActivityIndicator size='large' color={MainColors.paleBackground}/></View> :
     <KeyboardAvoidingView
         style={styles.screen}

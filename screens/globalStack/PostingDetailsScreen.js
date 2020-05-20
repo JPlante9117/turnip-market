@@ -1,13 +1,13 @@
 import React, { useEffect, useCallback } from 'react'
 import { View, StyleSheet, Linking, ScrollView, Button, ImageBackground } from 'react-native'
-import DefaultText from '../components/DefaultText'
-import { MainColors } from '../constants/MainColors'
+import DefaultText from '../../components/DefaultText'
+import { MainColors } from '../../constants/MainColors'
 import { FontAwesome } from '@expo/vector-icons'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import { useSelector, useDispatch } from 'react-redux'
 import { HeaderButtons, Item } from 'react-navigation-header-buttons'
-import CustomHeaderButton from '../components/CustomHeaderButton'
-import { deletePosting } from '../store/actions/postingActions'
+import CustomHeaderButton from '../../components/CustomHeaderButton'
+import { deletePosting } from '../../store/actions/postingActions'
 
 const PostingDetailScreen = props => {
 
@@ -24,7 +24,7 @@ const PostingDetailScreen = props => {
     }, [deletePostHandler, currentUser])
 
     return(
-        <ImageBackground style={{flex: 1}}source={require('../assets/bgtest.png')}>
+        <ImageBackground style={{flex: 1}}source={require('../../assets/bgtest.png')}>
         <ScrollView contentContainerStyle={styles.screen}>
             <View style={styles.postingWrapper}>
                 <View style={styles.posting}>

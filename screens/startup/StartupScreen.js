@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react'
 import {View, ActivityIndicator, StyleSheet, AsyncStorage } from 'react-native'
 import { useDispatch } from 'react-redux'
-import DefaultText from '../components/DefaultText'
-import { triedAutoLogin, authenticate } from '../store/actions/authActions'
-import { MainColors } from '../constants/MainColors'
+import DefaultText from '../../components/DefaultText'
+import { triedAutoLogin, authenticate } from '../../store/actions/authActions'
+import { MainColors } from '../../constants/MainColors'
 
 const StartupScreen = props => {
 

@@ -1,17 +1,18 @@
 import React from 'react'
 import { createStackNavigator } from '@react-navigation/stack'
 import { createDrawerNavigator, DrawerItemList } from '@react-navigation/drawer'
-import MarketScreen, { marketScreenOptions } from '../screens/MarketScreen'
-import PostingDetailScreen, { postingDetailsOptions } from '../screens/PostingDetailsScreen'
+import MarketScreen, { marketScreenOptions } from '../screens/globalStack/MarketScreen'
+import PostingDetailScreen, { postingDetailsOptions } from '../screens/globalStack/PostingDetailsScreen'
 import { Platform, ScrollView, SafeAreaView, TouchableOpacity } from 'react-native'
 import { MainColors } from '../constants/MainColors'
-import NewPostingScreen, { newPostingOptions } from '../screens/NewPostingScreen'
+import NewPostingScreen, { newPostingOptions } from '../screens/globalStack/NewPostingScreen'
 import { Fontisto, Ionicons } from '@expo/vector-icons'
 import MyMarketScreen, { myMarketOptions } from '../screens/personalStackScreens/MyMarketScreen'
-import AuthScreen, { authScreenOptions } from '../screens/AuthScreen'
+import AuthScreen, { authScreenOptions } from '../screens/startup/AuthScreen'
 import DefaultText from '../components/DefaultText'
 import { logout } from '../store/actions/authActions'
 import { useDispatch } from 'react-redux'
+import SettingsScreen, { settingsScreenOptions } from '../screens/settings/SettingsScreen'
 
 const Stack = createStackNavigator()
 const Drawer = createDrawerNavigator()
@@ -85,6 +86,20 @@ const MarketNavigator = props => {
         )
     }
 
+    const settingsStack = () => {
+        return(
+            <Stack.Navigator
+                screenOptions={baseHeader}
+            >
+                <Stack.Screen
+                    name="Settings"
+                    component={SettingsScreen}
+                    options={settingsScreenOptions}
+                />
+            </Stack.Navigator>
+        )
+    }
+
     const dispatch = useDispatch()
 
     return(
@@ -123,6 +138,14 @@ const MarketNavigator = props => {
                     options={{
                         drawerLabel: 'My Island Market',
                         drawerIcon: props => <Fontisto name='island' size={30} color={props.color} />
+                    }}
+                />
+                <Drawer.Screen
+                    name="Settings"
+                    component={settingsStack}
+                    options={{
+                        drawerLabel: "Settings",
+                        drawerIcon: props => <Fontisto name='player-settings' size={30} color={props.color} />
                     }}
                 />
             </Drawer.Navigator>

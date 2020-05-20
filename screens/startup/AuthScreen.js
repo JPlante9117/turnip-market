@@ -2,11 +2,10 @@ import React, { useReducer, useCallback, useState, useEffect } from 'react'
 import { StyleSheet, View, KeyboardAvoidingView, Button, ActivityIndicator, Alert, ImageBackground } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
 import { useDispatch } from 'react-redux'
-import { MainColors } from '../constants/MainColors'
-import Input from '../components/Input'
-import Card from '../components/Card'
-import { login, signup } from '../store/actions/authActions'
-// import { signup, login } from '../../store/actions/authActions'
+import { MainColors } from '../../constants/MainColors'
+import Input from '../../components/Input'
+import Card from '../../components/Card'
+import { login, signup } from '../../store/actions/authActions'
 
 const formReducer = (state, action) => {
     if (action.type === 'UPDATE') {
@@ -85,7 +84,7 @@ const AuthScreen = props => {
 
     return(
         <KeyboardAvoidingView style={styles.screen}>
-            <ImageBackground style={{flex: 1, padding: 10, justifyContent: 'center'}} source={require('../assets/bgtest.png')}>
+            <ImageBackground style={{flex: 1, padding: 10, justifyContent: 'center'}} source={require('../../assets/bgtest.png')}>
                 <Card>
                     <ScrollView style={{width: '100%'}}>
                         <Input
