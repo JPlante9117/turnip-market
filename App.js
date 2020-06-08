@@ -9,11 +9,13 @@ import postingsReducer from './store/reducers/postingsReducer';
 import islandPricesReducer from './store/reducers/islandPricesReducer';
 import authReducer from './store/reducers/authReducer';
 import AppNavigator from './navigation/AppNavigator';
+import userReducer from './store/reducers/userReducer';
 
 const rootReducer = combineReducers({
   postings: postingsReducer,
   islandPrices: islandPricesReducer,
-  authentication: authReducer
+  authentication: authReducer,
+  userData: userReducer
 })
 
 const store = createStore(rootReducer, applyMiddleware(ReduxThunk))

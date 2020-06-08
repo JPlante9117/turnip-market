@@ -45,6 +45,7 @@ const MyMarketScreen = props => {
         setIsLoading(true)
         try{
             await dispatch(resetPrices())
+            await loadPrices()
             setIsLoading(false)
         }catch(err){
             console.log(err)

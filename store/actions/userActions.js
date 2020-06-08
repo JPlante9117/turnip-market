@@ -1,4 +1,5 @@
 export const SET_USERNAME = "SET_USERNAME"
+export const SET_DATAKEY = "SET_DATAKEY"
 
 export const setUsername = (username) => {
     return async (dispatch, getState) => {
