@@ -29,6 +29,9 @@ class Input extends React.Component {
         if (this.props.minLength != null && text.length < this.props.minLength) {
         isValid = false;
         }
+        if (this.props.isImage != null && text.match(/\.(jpeg|jpg|gif|png)$/) == null){
+            isValid = false
+        }
 
         this.setState(prevState => ({
             ...prevState,

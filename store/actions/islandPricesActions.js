@@ -8,42 +8,16 @@ export const INIT_PRICES = 'INIT_PRICES'
 
 export const fetchPrices = () => {
     return async (dispatch, getState) => {
-        const userId = await getState().authentication.uid
         const dataKey = await getState().userData.dataKey
         try {
-            let data
-            if (dataKey === ''){
-                const response = await fetch(`https://sow-joan.firebaseio.com/userData.json`)
-                if(!response.ok){
-                    console.log('UH OH!!')
-                }
-
-                const resData = await response.json()
-
-                let name
-
-                for(const key in resData){
-                    if(resData[key].data.userId === userId){
-                        name = key
-                        data = resData[key].islandPrices
-                        break
-                    } 
-                }
-
-                dispatch({
-                    type: SET_DATAKEY,
-                    key: name
-                })
-            } else {
-                const response = await fetch(`https://sow-joan.firebaseio.com/userData/${dataKey}/islandPrices.json`)
-                if(!response.ok){
-                    console.log('UH OH!!')
-                }
-
-                const resData = await response.json()
-
-                data = resData
+            const response = await fetch(`https://sow-joan.firebaseio.com/userData/${dataKey}/islandPrices.json`)
+            if(!response.ok){
+                console.log('UH OH!!')
             }
+
+            const resData = await response.json()
+
+            let data = resData
             
             dispatch({
                 type: GET_PRICES,

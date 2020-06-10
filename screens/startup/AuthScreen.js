@@ -8,26 +8,29 @@ import Card from '../../components/Card'
 import { login, signup } from '../../store/actions/authActions'
 
 const formReducer = (state, action) => {
-    if (action.type === 'UPDATE') {
-        const updatedValues = {
-            ...state.inputValues,
-            [action.input]: action.value
-        }
-        const updatedValidities = {
-            ...state.inputValidities,
-            [action.input]: action.validity
-        }
-        let updatedFormIsValid = true
-        for (const key in updatedValidities) {
-            updatedFormIsValid = updatedFormIsValid && updatedValidities[key];
-          }
-        return {
-            inputValues: updatedValues,
-            inputValidities: updatedValidities,
-            formIsValid: updatedFormIsValid
-        }
+    switch(action.type){
+        case 'UPDATE':
+            const updatedValues = {
+                ...state.inputValues,
+                [action.input]: action.value
+            }
+            const updatedValidities = {
+                ...state.inputValidities,
+                [action.input]: action.validity
+            }
+            let updatedFormIsValid = true
+            for (const key in updatedValidities) {
+                updatedFormIsValid = updatedFormIsValid && updatedValidities[key];
+            }
+            return {
+                ...state,
+                inputValues: updatedValues,
+                inputValidities: updatedValidities,
+                formIsValid: updatedFormIsValid
+            }
+        default:
+            return state
     }
-    return state
 }
 
 const AuthScreen = props => {
@@ -96,7 +99,9 @@ const AuthScreen = props => {
                             autoCapitalize="none"
                             errorText="Please enter a valid email address"
                             onInputChange={inputChangeHandler}
-                            initalValue=""
+                            initialValue=""
+                            returnKeyType="next"
+                            onSubmitEditing={() => console.log(formState.inputFocus)}
                         />
                         <Input
                             id="password"
@@ -104,11 +109,11 @@ const AuthScreen = props => {
                             keyboardType="default"
                             secureTextEntry
                             required
-                            minLength={5}
+                            minLength={6}
                             autoCapitalize="none"
                             errorText="Please enter a valid password (min 6 characters)"
                             onInputChange={inputChangeHandler}
-                            initalValue=""
+                            initialValue=""
                         />
                         {isLoading ? (
                             <ActivityIndicator size='small' color={MainColors.cardText} />

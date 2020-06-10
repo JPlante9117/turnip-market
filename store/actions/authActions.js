@@ -1,7 +1,7 @@
 import { AsyncStorage } from "react-native"
 import { API_KEY } from "../../assets/API"
 import { initPrices } from "./islandPricesActions"
-import { initUserSection } from "./userActions"
+import { initUserSection, getDataKey } from "./userActions"
 
 export const AUTHENTICATE = 'AUTHENTICATE'
 export const SET_DID_TRY_AL = 'SET_DID_TRY_AL'
@@ -24,7 +24,7 @@ export const authenticate = (userId, token, expiryTime) => {
             uid: userId,
             token: token})
     }
-} 
+}
 
 export const triedAutoLogin = () => {
     return {
@@ -75,7 +75,8 @@ export const signup = (email, password) => {
         dispatch(authenticate(resData.localId, resData.idToken, parseInt(resData.expiresIn) * 1000))
         const expirationDate = new Date(new Date().getTime() + parseInt(resData.expiresIn) * 1000).toISOString()
         saveDataToStorage(resData.idToken, resData.localId, expirationDate)
-        dispatch(initUserSection(resData.localId))
+        await dispatch(initUserSection(resData.localId))
+        dispatch(getDataKey())
     }
 }
 
@@ -121,6 +122,7 @@ export const login = (email, password) => {
         dispatch(authenticate(resData.localId, resData.idToken, parseInt(resData.expiresIn) * 1000))
         const expirationDate = new Date(new Date().getTime() + parseInt(resData.expiresIn) * 1000).toISOString()
         saveDataToStorage(resData.idToken, resData.localId, expirationDate)
+        dispatch(getDataKey())
     }
 }
 

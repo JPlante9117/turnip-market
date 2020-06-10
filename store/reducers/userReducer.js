@@ -1,4 +1,4 @@
-import { SET_DATAKEY } from "../actions/userActions"
+import { SET_DATAKEY, SET_USERDATA, GET_USERDATA } from "../actions/userActions"
 
 const initialState = {
     dataKey: '',
@@ -12,7 +12,21 @@ export default (state = initialState, action) => {
         case SET_DATAKEY:
             return {
                 ...state,
-                dataKey: action.key
+                dataKey: action.key,
+                username: action.data.username,
+                avatar: action.data.avatar,
+                islandName: action.data.islandName
+            }
+        case SET_USERDATA:
+            return{
+                ...state,
+                username: action.username,
+                avatar: action.avatarURL,
+                islandName: action.islandName
+            }
+        case GET_USERDATA:
+            return{
+                username
             }
         default:
             return state
