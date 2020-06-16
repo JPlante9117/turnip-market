@@ -1,6 +1,9 @@
+import User from "../../models/user"
+
 export const SET_USERDATA = "SET_USERDATA"
 export const SET_DATAKEY = "SET_DATAKEY"
 export const GET_USERDATA = "GET_USERDATA"
+export const GET_USERS = "GET_USERS"
 
 export const getDataKey = () => {
     return async (dispatch, getState) => {
@@ -28,6 +31,32 @@ export const getDataKey = () => {
                 key: name,
                 data: data
             })
+        } catch(err) {
+            throw err
+        }
+    }
+}
+
+export const fetchUsers = () => {
+    return async (dispatch) => {
+        try{
+            const response = await fetch('https://sow-joan.firebaseio.com/userData.json')
+            if(!response.ok){
+                console.log('UH OH!!')
+            }
+
+            const resData = await response.json()
+            const users = []
+
+            for(const key in resData){
+                users.push(new User(resData[key].data.userId, resData[key].data.username, resData[key].data.islandName, resData[key].data.avatar))
+            }
+
+            dispatch({
+                type: GET_USERS,
+                payload: users
+            })
+            
         } catch(err) {
             throw err
         }

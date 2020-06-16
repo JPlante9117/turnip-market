@@ -3,21 +3,21 @@ import { View, Button, StyleSheet, Platform, Image } from 'react-native'
 import { TouchableOpacity, TouchableNativeFeedback } from 'react-native-gesture-handler'
 import DefaultText from './DefaultText'
 import { MainColors } from '../constants/MainColors'
+import { useSelector } from 'react-redux'
 
 const MarketCard = props => {
 
     const Touchable = Platform.OS === 'android' ? TouchableNativeFeedback : TouchableOpacity
+    let user = useSelector(state => state.userData.users.find(prof => prof.id === props.user))
 
-
-    // IMAGE URI HARD CODED
     return(
         <View style={{...styles.card, overflow: 'hidden'}}>
         <Touchable onPress={props.handlePress}>
             <View style={styles.card}>
-                <Image style={styles.circle} source={{uri: 'https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png'}} />
+                <Image style={styles.circle} source={{uri: user.avatar}} />
                 <View style={styles.column}>
                     <DefaultText style={styles.header}>USER</DefaultText>
-                    <DefaultText>{props.username}</DefaultText>
+                    <DefaultText>{user.username}</DefaultText>
                     <DefaultText></DefaultText>
                 </View>
                 <View style={styles.column}>

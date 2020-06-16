@@ -7,6 +7,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { fetchPostings } from '../../store/actions/postingActions'
 import { MainColors } from '../../constants/MainColors'
 import { useFocusEffect } from '@react-navigation/native'
+import { fetchUsers } from '../../store/actions/userActions'
 
 const MarketScreen = props => {
 
@@ -14,11 +15,14 @@ const MarketScreen = props => {
     const [isLoading, setIsLoading] = useState(true)
     const [error, setError] = useState()
     const dispatch = useDispatch()
+    let users = []
 
     const loadPosts = useCallback(async () => {
         setIsLoading(true)
         try {
             await dispatch(fetchPostings())
+            await dispatch(fetchUsers())
+            users = useSelector(state => state.userData.users)
         } catch(err){
             setError(err)
         }
@@ -38,8 +42,9 @@ const MarketScreen = props => {
         }, [loadPosts])
     )
 
+    //NEED TO FIND ANOTHER WAY TO SET TITLE ON PAGE
     const renderCards = itemData => {
-        return <MarketCard user={itemData.item.userId} username={itemData.item.username} price={itemData.item.price} handlePress={() => props.navigation.navigate('PostingDetails', {user: itemData.item.userId, id: itemData.item.id})} />
+        return <MarketCard user={itemData.item.userId} price={itemData.item.price} handlePress={() => props.navigation.navigate('PostingDetails', {user: users.find(user => user.id === itemData.item.userId), id: itemData.item.id})} />
     }
 
     if (isLoading) {
