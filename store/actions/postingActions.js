@@ -40,8 +40,9 @@ export const fetchPostings = () => {
 export const createPosting = postingData => {
     return async (dispatch, getState) => {
         const userId = getState().authentication.uid
+        const token = getState().authentication.token
         try {
-            const response = await fetch(`https://sow-joan.firebaseio.com/postings.json`,
+            const response = await fetch(`https://sow-joan.firebaseio.com/postings.json?auth=${token}`,
             {
                 method: 'POST',
                 headers: {
@@ -78,9 +79,10 @@ export const createPosting = postingData => {
 }
 
 export const deletePosting = postId => {
-    return async dispatch => {
+    return async (dispatch, getState) => {
+        const token = getState().authentication.token
         try{
-            const response = await fetch(`https://sow-joan.firebaseio.com/postings/${postId}.json`,
+            const response = await fetch(`https://sow-joan.firebaseio.com/postings/${postId}.json?auth=${token}`,
             {
                 method: 'DELETE',
                 headers: {
