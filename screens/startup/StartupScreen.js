@@ -4,6 +4,7 @@ import { useDispatch } from 'react-redux'
 import DefaultText from '../../components/DefaultText'
 import { triedAutoLogin, authenticate } from '../../store/actions/authActions'
 import { MainColors } from '../../constants/MainColors'
+import { getDataKey } from '../../store/actions/userActions'
 
 const StartupScreen = props => {
 
@@ -28,6 +29,7 @@ const StartupScreen = props => {
             const expirationTime = expirationDate.getTime() - new Date().getTime()
 
             dispatch(authenticate(uid, token, parseInt(expirationTime) * 1000))
+            dispatch(getDataKey())
         }
         tryLogin()
     }, [dispatch, authenticate])
