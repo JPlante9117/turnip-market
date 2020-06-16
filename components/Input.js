@@ -6,7 +6,7 @@ import { MainColors } from '../constants/MainColors'
 class Input extends React.Component {
 
     state = {
-        value: this.props.initialValue ? this.props.initialValue : '',
+        value: this.props.initialValue !== "" ? this.props.initialValue : '',
         isValid: this.props.initialValid ? this.props.initialValid : false,
         touched: false
     }

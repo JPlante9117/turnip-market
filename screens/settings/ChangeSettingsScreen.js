@@ -75,6 +75,7 @@ const ChangeSettingsScreen = props => {
             setError(err.message)
         } finally {
             setIsLoading(false)
+            props.navigation.goBack()
         }
     }
 
