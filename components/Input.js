@@ -7,7 +7,7 @@ class Input extends React.Component {
 
     state = {
         value: this.props.initialValue !== "" ? this.props.initialValue : '',
-        isValid: this.props.initialValid ? this.props.initialValid : false,
+        isValid: this.props.initialValid,
         touched: false
     }
 

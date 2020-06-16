@@ -46,8 +46,8 @@ const ChangeSettingsScreen = props => {
             avatarURL: userData.avatar
         },
         inputValidities: {
-            username: false,
-            islandName: false,
+            username: !!userData.username,
+            islandName: !!userData.islandName,
             avatarURL: true
         },
         formIsValid: false
@@ -94,6 +94,7 @@ const ChangeSettingsScreen = props => {
                             maxLength={15}
                             onInputChange={inputChangeHandler}
                             initialValue={userData.username}
+                            initialValid={!!userData.username}
                             returnKeyType="next"
                         />
                         <Input
@@ -106,6 +107,7 @@ const ChangeSettingsScreen = props => {
                             errorText="Please enter your Island Name"
                             onInputChange={inputChangeHandler}
                             initialValue={userData.islandName}
+                            initialValid={!!userData.islandName}
                             returnKeyType="next"
                         />
                         <Input
