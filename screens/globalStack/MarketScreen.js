@@ -39,7 +39,7 @@ const MarketScreen = props => {
     )
 
     const renderCards = itemData => {
-        return <MarketCard user={itemData.item.userId} price={itemData.item.price} handlePress={() => props.navigation.navigate('PostingDetails', {user: itemData.item.userId, id: itemData.item.id})} />
+        return <MarketCard user={itemData.item.userId} username={itemData.item.username} price={itemData.item.price} handlePress={() => props.navigation.navigate('PostingDetails', {user: itemData.item.userId, id: itemData.item.id})} />
     }
 
     if (isLoading) {

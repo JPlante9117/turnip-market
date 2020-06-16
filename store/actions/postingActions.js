@@ -23,7 +23,8 @@ export const fetchPostings = () => {
                     resData[key].ask,
                     resData[key].queueLink,
                     resData[key].date,
-                    resData[key].proofImg))
+                    resData[key].proofImg,
+                    resData[key].username))
             }
 
             dispatch({
@@ -40,6 +41,7 @@ export const fetchPostings = () => {
 export const createPosting = postingData => {
     return async (dispatch, getState) => {
         const userId = getState().authentication.uid
+        const username = getState().userData.username
         const token = getState().authentication.token
         try {
             const response = await fetch(`https://sow-joan.firebaseio.com/postings.json?auth=${token}`,
@@ -50,6 +52,7 @@ export const createPosting = postingData => {
                 },
                 body: JSON.stringify({
                     userId: userId,
+                    username: username,
                     price: postingData.price,
                     ask: postingData.ask,
                     queueLink: postingData.link,
@@ -65,6 +68,7 @@ export const createPosting = postingData => {
                 posting: {
                     id: resData.name,
                     userId: userId,
+                    username: username,
                     price: postingData.price,
                     ask: postingData.ask,
                     link: postingData.link,

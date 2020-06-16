@@ -15,7 +15,7 @@ export default (state = initialState, action) => {
             }
         case CREATE_POSTING:
             let postData = action.posting
-            const newPosting = new Posting(postData.id, postData.userId, postData.price, postData.ask, postData.link, new Date(), postData.image)
+            const newPosting = new Posting(postData.id, postData.userId, postData.price, postData.ask, postData.link, new Date(), postData.image, postData.username)
             return {
                 postings: state.postings.concat(newPosting),
                 myPostings: state.myPostings.concat(newPosting)

@@ -20,8 +20,8 @@ const PostingDetailScreen = props => {
     }, [dispatch, deletePosting])
 
     useEffect(() => {
-        props.navigation.setParams({deletePost: deletePostHandler, currentUser: currentUser.uid})
-    }, [deletePostHandler, currentUser])
+        props.navigation.setParams({deletePost: deletePostHandler, currentUser: currentUser.uid, username: posting.username})
+    }, [deletePostHandler, currentUser, posting])
 
     return(
         <ImageBackground style={{flex: 1}}source={require('../../assets/bgtest.png')}>
@@ -40,7 +40,7 @@ const PostingDetailScreen = props => {
                         <View style={styles.postingSection}>
                             <DefaultText style={styles.detailHeader}>User:</DefaultText>
                             <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
-                                <DefaultText style={styles.detailText}>{posting.userId}</DefaultText>
+                                <DefaultText style={styles.detailText}>{posting.username}</DefaultText>
                                 <TouchableOpacity onPress={() => {}} style={{marginLeft: 15}}>
                                     <FontAwesome name="envelope" size={23} color={MainColors.cardText}/>
                                 </TouchableOpacity>
@@ -69,7 +69,7 @@ const PostingDetailScreen = props => {
 
 export const postingDetailsOptions = navData => {
     return {
-        title: `${navData.route.params.user}'s Posting`,
+        title: `${navData.route.params.username}'s Posting`,
         headerRight: () => {
             if(navData.route.params.currentUser === navData.route.params.user){
                 return (
