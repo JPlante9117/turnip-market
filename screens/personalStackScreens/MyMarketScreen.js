@@ -10,7 +10,6 @@ import Card from '../../components/Card'
 import { useFocusEffect } from '@react-navigation/native'
 import IslandChart from '../../components/IslandChart'
 import IslandPriceModal from '../../components/IslandPriceModal'
-import { specificNav } from '../../navigation/MarketNavigator'
 
 const MyMarketScreen = props => {
     
