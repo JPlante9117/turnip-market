@@ -140,6 +140,8 @@ const NewPostingScreen = props => {
                         onInputChange={inputChangeHandler}
                         initialValue={''}
                         initialValid={true}
+                        isQueueCode
+                        errorText='Please enter a turnip.exchange link here, or no link'
                     />
                     <DefaultText style={styles.detailHeader}>Take Proof Photo</DefaultText>
                     <ImagePicker onImageTaken={imageTakenHandler} />

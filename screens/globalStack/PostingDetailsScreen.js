@@ -20,7 +20,7 @@ const PostingDetailScreen = props => {
     }, [dispatch, deletePosting])
 
     useEffect(() => {
-        props.navigation.setParams({deletePost: deletePostHandler, currentUser: currentUser.uid, username: posting.username})
+        props.navigation.setParams({deletePost: deletePostHandler, currentUser: currentUser.uid, username: posting.username, user: posting.userId})
     }, [deletePostHandler, currentUser, posting])
 
     return(

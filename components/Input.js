@@ -32,6 +32,9 @@ class Input extends React.Component {
         if (this.props.isImage != null && text.match(/\.(jpeg|jpg|gif|png)$/) == null){
             isValid = false
         }
+        if (this.props.isQueueCode != null && text.length > 0 && text.match(/(turnip.exchange)/g) == null) {
+            isValid = false
+        }
 
         this.setState(prevState => ({
             ...prevState,
