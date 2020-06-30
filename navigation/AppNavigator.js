@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux'
 import { NavigationContainer } from '@react-navigation/native'
 import MarketNavigator, { AuthNavigator } from './MarketNavigator'
 import StartupScreen from '../screens/startup/StartupScreen'
+import ChangeSettingsScreen from '../screens/settings/ChangeSettingsScreen'
 
 const AppNavigator = props => {
 

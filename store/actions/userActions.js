@@ -100,7 +100,6 @@ export const setUserData = (userData) => {
 }
 
 export const initUserSection = (userId) => {
-    console.log("init User Section")
     
     return async (dispatch, getState) =>{
         const token = await getState().authentication.token

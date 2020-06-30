@@ -35,6 +35,9 @@ class Input extends React.Component {
         if (this.props.isQueueCode != null && text.length > 0 && text.match(/(turnip.exchange)/g) == null) {
             isValid = false
         }
+        if(this.props.confirmPass != null && text !== this.props.confirmPass){
+            isValid = false
+        }
 
         this.setState(prevState => ({
             ...prevState,
@@ -77,7 +80,7 @@ const styles = StyleSheet.create({
     },
     label: {
         color: MainColors.cardHeaderText,
-        fontSize: 25,
+        fontSize: 20,
         textAlign: 'center',
         marginBottom: 10
     },
