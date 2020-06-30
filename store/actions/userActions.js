@@ -99,7 +99,7 @@ export const setUserData = (userData) => {
     }
 }
 
-export const initUserSection = (userId) => {
+export const initUserSection = (userId, values) => {
     
     return async (dispatch, getState) =>{
         const token = await getState().authentication.token
@@ -112,8 +112,8 @@ export const initUserSection = (userId) => {
                 body: JSON.stringify({
                     data: {
                         userId: userId,
-                        islandName: '',
-                        username: '',
+                        islandName: values.islandName,
+                        username: values.username,
                         avatar: 'https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png'
                     },
                     islandPrices: {
