@@ -4,14 +4,25 @@ import { TouchableOpacity, TouchableNativeFeedback } from 'react-native-gesture-
 import DefaultText from './DefaultText'
 import { MainColors } from '../constants/MainColors'
 import { useSelector } from 'react-redux'
+import { FontAwesome } from '@expo/vector-icons'
 
 const MarketCard = props => {
 
     const Touchable = Platform.OS === 'android' ? TouchableNativeFeedback : TouchableOpacity
     let user = useSelector(state => state.userData.users.find(prof => prof.id === props.user))
+    let currentUser = useSelector(state => state.authentication.uid)
+
+    let deleteRadius = {}
+
+    if (currentUser === props.user){
+        deleteRadius = {
+            borderBottomRightRadius: 0
+        }
+    }
 
     return(
-        <View style={{...styles.card, overflow: 'hidden'}}>
+        <View>
+        <View style={{...styles.card, overflow: 'hidden', ...deleteRadius}}>
         <Touchable onPress={props.handlePress}>
             <View style={styles.card}>
                 <Image style={styles.circle} source={{uri: user.avatar}} />
@@ -31,6 +42,15 @@ const MarketCard = props => {
             </View>
         </Touchable>
         </View>
+        {currentUser === props.user ? 
+            <View style={{...styles.delete, overflow: 'hidden'}}>
+            <Touchable>
+                <View style={styles.delete}>
+                    <FontAwesome name="trash" size={30} color={MainColors.cardHeaderText} />
+                </View>
+            </Touchable>
+            </View> : null }
+        </View>
     )
 }
 
@@ -40,7 +60,7 @@ const styles = StyleSheet.create({
         height: 100,
         width: '100%',
         borderRadius: 10,
-        marginVertical: 10,
+        marginTop: 10,
         flexDirection: 'row',
         justifyContent: 'space-around',
         alignItems: 'center'
@@ -66,6 +86,19 @@ const styles = StyleSheet.create({
         width: 50,
         backgroundColor: '#cfc1b0',
         borderRadius: 100
+    },
+    delete: {
+        alignSelf: 'flex-end',
+        borderRadius: 100,
+        backgroundColor: MainColors.paleBackground,
+        height: 50,
+        width: 50,
+        borderTopLeftRadius: 0,
+        borderTopRightRadius: 0,
+        borderBottomRightRadius: 50,
+        borderBottomLeftRadius: 50,
+        justifyContent: 'center',
+        alignItems: 'center',
     }
 })
 

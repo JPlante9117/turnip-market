@@ -36,6 +36,7 @@ const PostingDetailScreen = props => {
                     <View style={styles.posting}>
                         <ImageBackground style={styles.img} source={{uri: `data:image/jpg;base64,${posting.proofImg}`}}>
                             <DefaultText style={styles.date}>{posting.readableDate}</DefaultText>
+                            <DefaultText style={styles.code}>{posting.dodoCode}</DefaultText>
                         </ImageBackground>
                         <View style={styles.postingSection}>
                             <DefaultText style={styles.detailHeader}>User:</DefaultText>
@@ -135,6 +136,16 @@ const styles = StyleSheet.create({
         position: 'absolute',
         top: 0,
         right: 0,
+        backgroundColor: MainColors.cardHeaderText,
+        borderBottomLeftRadius: 10,
+        borderTopRightRadius: 10,
+        padding: 5,
+        color: MainColors.cardBackground
+    },
+    code: {
+        position: 'absolute',
+        bottom: 0,
+        left: 0,
         backgroundColor: MainColors.cardHeaderText,
         borderBottomLeftRadius: 10,
         borderTopRightRadius: 10,
