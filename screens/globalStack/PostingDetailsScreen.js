@@ -1,27 +1,19 @@
-import React, { useEffect, useCallback } from 'react'
-import { View, StyleSheet, Linking, ScrollView, Button, ImageBackground } from 'react-native'
+import React, { useEffect} from 'react'
+import { View, StyleSheet, Linking, ScrollView, Button, ImageBackground, Alert } from 'react-native'
 import DefaultText from '../../components/DefaultText'
 import { MainColors } from '../../constants/MainColors'
 import { FontAwesome } from '@expo/vector-icons'
 import { TouchableOpacity } from 'react-native-gesture-handler'
-import { useSelector, useDispatch } from 'react-redux'
-import { HeaderButtons, Item } from 'react-navigation-header-buttons'
-import CustomHeaderButton from '../../components/CustomHeaderButton'
-import { deletePosting } from '../../store/actions/postingActions'
+import { useSelector} from 'react-redux'
 
 const PostingDetailScreen = props => {
 
     const posting = useSelector(state => state.postings.postings.find(post => post.id === props.route.params.id))
     const currentUser = useSelector(state => state.authentication)
-    const dispatch = useDispatch()
-
-    const deletePostHandler = useCallback(postId => {
-        dispatch(deletePosting(postId))
-    }, [dispatch, deletePosting])
 
     useEffect(() => {
-        props.navigation.setParams({deletePost: deletePostHandler, currentUser: currentUser.uid, username: posting.username, user: posting.userId})
-    }, [deletePostHandler, currentUser, posting])
+        props.navigation.setParams({currentUser: currentUser.uid, username: posting.username, user: posting.userId})
+    }, [currentUser, posting])
 
     return(
         <ImageBackground style={{flex: 1}}source={require('../../assets/bgtest.png')}>
@@ -36,15 +28,12 @@ const PostingDetailScreen = props => {
                     <View style={styles.posting}>
                         <ImageBackground style={styles.img} source={{uri: `data:image/jpg;base64,${posting.proofImg}`}}>
                             <DefaultText style={styles.date}>{posting.readableDate}</DefaultText>
-                            <DefaultText style={styles.code}>{posting.dodoCode}</DefaultText>
+                            {posting.dodoCode.length > 0 ? <DefaultText style={styles.code}>{posting.dodoCode}</DefaultText> : null}
                         </ImageBackground>
                         <View style={styles.postingSection}>
                             <DefaultText style={styles.detailHeader}>User:</DefaultText>
                             <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
                                 <DefaultText style={styles.detailText}>{posting.username}</DefaultText>
-                                <TouchableOpacity onPress={() => {}} style={{marginLeft: 15}}>
-                                    <FontAwesome name="envelope" size={23} color={MainColors.cardText}/>
-                                </TouchableOpacity>
                             </View>
                         </View>
                         <View style={styles.postingSection}>
@@ -57,7 +46,7 @@ const PostingDetailScreen = props => {
                         </View>
                         <View style={styles.postingSection}>
                             <View style={styles.queueButton}>
-                                <Button color={'#3399ff'} title="Queue Signup" onPress={() => Linking.openURL(posting.queueLink)} disabled={posting.queueLink.length === 0}/>
+                                <Button color={'#3399ff'} title="Queue Signup" onPress={() => Linking.openURL(posting.queueLink).catch((err) => Alert.alert('Oh, turnips!', 'Looks like there\'s something wrong with this link. Sorry about that!', [{text: 'Okay'}]))} disabled={posting.queueLink.length === 0}/>
                             </View>
                         </View>
                     </View>}
@@ -70,19 +59,7 @@ const PostingDetailScreen = props => {
 
 export const postingDetailsOptions = navData => {
     return {
-        title: `${navData.route.params.username}'s Posting`,
-        headerRight: () => {
-            if(navData.route.params.currentUser === navData.route.params.user){
-                return (
-                    <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
-                        <Item iconName="trash" iconSize={30} onPress={() => {
-                            navData.route.params.deletePost(navData.route.params.id)
-                            navData.navigation.goBack()
-                        }}/>
-                    </HeaderButtons>
-                )
-            }
-        }
+        title: `${navData.route.params.username}'s Posting`
     }
 }
 
