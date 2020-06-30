@@ -1,5 +1,5 @@
 import React, { useReducer, useCallback, useEffect, useState } from 'react'
-import { View, StyleSheet, ImageBackground, Button, ScrollView, TextInput, KeyboardAvoidingView, Platform, Alert, ActivityIndicator } from 'react-native'
+import { View, StyleSheet, ImageBackground, ScrollView, KeyboardAvoidingView, Platform, Alert, ActivityIndicator} from 'react-native'
 import DefaultText from '../../components/DefaultText'
 import { MainColors } from '../../constants/MainColors'
 import { HeaderButtons, Item } from 'react-navigation-header-buttons'
@@ -8,6 +8,7 @@ import ImagePicker from '../../components/ImagePicker'
 import Input from '../../components/Input'
 import { useDispatch } from 'react-redux'
 import { createPosting } from '../../store/actions/postingActions'
+import { Switch } from 'react-native-gesture-handler'
 
 const formReducer = (state, action) => {
     switch(action.type){
@@ -41,19 +42,22 @@ const NewPostingScreen = props => {
             price: props.route.params.price,
             ask: '',
             link: '',
-            image: ''
+            image: '',
+            dodoCode: ''
         },
         inputValidities: {
             price: props.route.params.price !== '' ? true : false,
             ask: false,
             link: true,
-            image: true
+            image: true,
+            dodoCode: true
         },
         formValid: false
     }
 
     const [formState, formDispatch] = useReducer(formReducer, initialState)
     const [isLoading, setIsLoading] = useState(false)
+    const [isQueue, setIsQueue] = useState(false)
     const [error, setError] = useState()
     const dispatch = useDispatch()
 
@@ -132,6 +136,17 @@ const NewPostingScreen = props => {
                         initialValid={false}
                         required
                     />
+                    <DefaultText style={{marginTop: 10, textAlign: 'center', fontSize: 20, color: MainColors.cardHeaderText}}>Switch to {isQueue ? "Dodo Code" : "Queue Link"}</DefaultText>
+                    <View style={{alignItems: 'center', marginBottom: 10}}>
+                        <Switch
+                            value={isQueue}
+                            onChange={() => setIsQueue(!isQueue)}
+                            ios_backgroundColor={MainColors.cardHeaderText}
+                            thumbColor={MainColors.cardText}
+                            trackColor={{false: MainColors.paleBackground, true: MainColors.cardHeaderText}}
+                        />
+                    </View>
+                    {isQueue ? 
                     <Input
                         id='link'
                         label='Queue Link'
@@ -143,6 +158,18 @@ const NewPostingScreen = props => {
                         isQueueCode
                         errorText='Please enter a turnip.exchange link here, or no link'
                     />
+                    :
+                    <Input
+                        id='dodoCode'
+                        label='Dodo Code'
+                        returnKeyType='next'
+                        onInputChange={inputChangeHandler}
+                        initialValue={''}
+                        initialValid={true}
+                        isDodoCode
+                        maxLength={5}
+                        errorText='Please enter a full Dodo Code, or no code.'
+                    />}
                     <DefaultText style={styles.detailHeader}>Take Proof Photo</DefaultText>
                     <ImagePicker onImageTaken={imageTakenHandler} />
                 </View>

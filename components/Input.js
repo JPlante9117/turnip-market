@@ -35,6 +35,9 @@ class Input extends React.Component {
         if (this.props.isQueueCode != null && text.length > 0 && text.match(/(turnip.exchange)/g) == null) {
             isValid = false
         }
+        if (this.props.isDodoCode != null && text.length !== 5){
+            isValid = false
+        }
         if(this.props.confirmPass != null && text !== this.props.confirmPass){
             isValid = false
         }
