@@ -15,17 +15,23 @@ export const fetchPostings = () => {
 
             const resData = await response.json()
             const loadedPostings = []
-            
+            const dateCheck = new Date()
+            dateCheck.setDate(dateCheck.getDate() - 1)
+
             for(const key in resData){
-                loadedPostings.push(new Posting(key,
-                    resData[key].userId,
-                    resData[key].price,
-                    resData[key].ask,
-                    resData[key].queueLink,
-                    resData[key].date,
-                    resData[key].proofImg,
-                    resData[key].username,
-                    resData[key].dodoCode))
+                if(new Date(resData[key].date).getTime() > dateCheck.getTime()){
+                    loadedPostings.push(new Posting(key,
+                        resData[key].userId,
+                        resData[key].price,
+                        resData[key].ask,
+                        resData[key].queueLink,
+                        resData[key].date,
+                        resData[key].proofImg,
+                        resData[key].username,
+                        resData[key].dodoCode))
+                } else {
+                    await dispatch(deletePosting(key))
+                }
             }
 
             dispatch({
