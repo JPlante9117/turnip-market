@@ -42,7 +42,6 @@ const MarketScreen = props => {
         }, [loadPosts])
     )
 
-    //NEED TO FIND ANOTHER WAY TO SET TITLE ON PAGE
     const renderCards = itemData => {
         return <MarketCard id={itemData.item.id} user={itemData.item.userId} price={itemData.item.price} handlePress={() => props.navigation.navigate('PostingDetails', {user: users.find(user => user.id === itemData.item.userId), id: itemData.item.id})} />
     }
