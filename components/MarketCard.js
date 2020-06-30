@@ -1,16 +1,22 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import { View, Button, StyleSheet, Platform, Image } from 'react-native'
 import { TouchableOpacity, TouchableNativeFeedback } from 'react-native-gesture-handler'
 import DefaultText from './DefaultText'
 import { MainColors } from '../constants/MainColors'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { FontAwesome } from '@expo/vector-icons'
+import { deletePosting } from '../store/actions/postingActions'
 
 const MarketCard = props => {
 
     const Touchable = Platform.OS === 'android' ? TouchableNativeFeedback : TouchableOpacity
     let user = useSelector(state => state.userData.users.find(prof => prof.id === props.user))
     let currentUser = useSelector(state => state.authentication.uid)
+    let dispatch = useDispatch()
+
+    const deleteHandler = useCallback(async () => {
+        await dispatch(deletePosting(props.id))
+    }, [deletePosting, dispatch])
 
     let deleteRadius = {}
 
@@ -46,7 +52,7 @@ const MarketCard = props => {
             <View style={{...styles.delete, overflow: 'hidden'}}>
             <Touchable>
                 <View style={styles.delete}>
-                    <FontAwesome name="trash" size={30} color={MainColors.cardHeaderText} />
+                    <FontAwesome name="trash" size={30} color={MainColors.cardHeaderText} onPress={deleteHandler} />
                 </View>
             </Touchable>
             </View> : null }
