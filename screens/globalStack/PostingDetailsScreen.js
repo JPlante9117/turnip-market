@@ -28,7 +28,7 @@ const PostingDetailScreen = props => {
                     <View style={styles.posting}>
                         <ImageBackground style={styles.img} source={{uri: `data:image/jpg;base64,${posting.proofImg}`}}>
                             <DefaultText style={styles.date}>{posting.readableDate}</DefaultText>
-                            {posting.dodoCode.length > 0 ? <DefaultText style={styles.code}>{posting.dodoCode}</DefaultText> : null}
+                            {posting.queueLink.length === 5 ? <DefaultText style={styles.code}>{posting.queueLink}</DefaultText> : null}
                         </ImageBackground>
                         <View style={styles.postingSection}>
                             <DefaultText style={styles.detailHeader}>User:</DefaultText>
@@ -46,7 +46,7 @@ const PostingDetailScreen = props => {
                         </View>
                         <View style={styles.postingSection}>
                             <View style={styles.queueButton}>
-                                <Button color={'#3399ff'} title="Queue Signup" onPress={() => Linking.openURL(posting.queueLink).catch((err) => Alert.alert('Oh, turnips!', 'Looks like there\'s something wrong with this link. Sorry about that!', [{text: 'Okay'}]))} disabled={posting.queueLink.length === 0}/>
+                                <Button color={'#3399ff'} title="Queue Signup" onPress={() => Linking.openURL(posting.queueLink).catch((err) => Alert.alert('Oh, turnips!', 'Looks like there\'s something wrong with this link. Sorry about that!', [{text: 'Okay'}]))} disabled={posting.queueLink.length < 6}/>
                             </View>
                         </View>
                     </View>}
