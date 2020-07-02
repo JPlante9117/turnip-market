@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "turnip-market",
+    "name": "Sow Joan Stalk Market",
     "slug": "turnip-market",
     "platforms": [
       "ios",
@@ -11,9 +11,9 @@
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/splash1.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#00884A"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
