@@ -49,7 +49,7 @@ const NewPostingScreen = props => {
             price: props.route.params.price !== '' ? true : false,
             ask: false,
             link: false,
-            image: true
+            image: false
         },
         formValid: false
     }
@@ -93,7 +93,7 @@ const NewPostingScreen = props => {
         formDispatch({
             type: 'UPDATE',
             value: imgPath,
-            validity: true,
+            validity: imgPath.length > 0 ? true : false,
             input: 'image'
         })
     }
@@ -123,6 +123,7 @@ const NewPostingScreen = props => {
                         initialValue={props.route.params.price ? props.route.params.price : ''}
                         initialValid={false}
                         required
+                        numbersOnly
                     />
                     <Input
                         id='ask'
