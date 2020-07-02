@@ -27,8 +27,7 @@ export const fetchPostings = () => {
                         resData[key].queueLink,
                         resData[key].date,
                         resData[key].proofImg,
-                        resData[key].username,
-                        resData[key].dodoCode))
+                        resData[key].username))
                 } else {
                     await dispatch(deletePosting(key))
                 }
@@ -64,8 +63,7 @@ export const createPosting = postingData => {
                     ask: postingData.ask,
                     queueLink: postingData.link,
                     date: new Date(),
-                    proofImg: postingData.image,
-                    dodoCode: postingData.dodoCode
+                    proofImg: postingData.image
                 })
             })
             console.log("1")
@@ -80,8 +78,7 @@ export const createPosting = postingData => {
                     price: postingData.price,
                     ask: postingData.ask,
                     link: postingData.link,
-                    image: postingData.image,
-                    dodoCode: postingData.dodoCode
+                    image: postingData.image
                 }
             })
         } catch(err){
