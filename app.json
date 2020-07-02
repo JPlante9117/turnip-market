@@ -22,7 +22,14 @@
       "**/*"
     ],
     "ios": {
+      "bundleIdentifier": "com.jpfriskyboots.sowjoanstalkmarket",
+      "buildNumber": "1.0.0",
       "supportsTablet": true
+    },
+    "primaryColor": "#00884A",
+    "android": {
+      "package": "com.jpfriskyboots.sowjoanstalkmarket",
+      "versionCode": 1
     }
   }
 }
