@@ -9,8 +9,9 @@ export const INIT_PRICES = 'INIT_PRICES'
 export const fetchPrices = () => {
     return async (dispatch, getState) => {
         const dataKey = await getState().userData.dataKey
+        const token = await getState().authentication.token
         try {
-            const response = await fetch(`https://sow-joan.firebaseio.com/userData/${dataKey}/islandPrices.json`)
+            const response = await fetch(`https://sow-joan.firebaseio.com/userData/${dataKey}/islandPrices.json?auth=${token}`)
             if(!response.ok){
                 console.log('UH OH!!')
             }

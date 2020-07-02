@@ -5,9 +5,10 @@ export const CREATE_POSTING = 'CREATE_POSTING'
 export const DELETE_POSTING = 'DELETE_POSTING'
 
 export const fetchPostings = () => {    
-    return async (dispatch) => {
+    return async (dispatch, getState) => {
+        const token = await getState().authentication.token
         try {
-            const response = await fetch('https://sow-joan.firebaseio.com/postings.json')
+            const response = await fetch(`https://sow-joan.firebaseio.com/postings.json?auth=${token}`)
 
             if (!response.ok) {
                 throw new Error('Something went Wrong!')

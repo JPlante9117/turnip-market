@@ -8,8 +8,9 @@ export const GET_USERS = "GET_USERS"
 export const getDataKey = () => {
     return async (dispatch, getState) => {
         const userId = await getState().authentication.uid
+        const token = await getState().authentication.token
         try{
-            const response = await fetch('https://sow-joan.firebaseio.com/userData.json')
+            const response = await fetch(`https://sow-joan.firebaseio.com/userData.json?auth=${token}`)
             if(!response.ok){
                 console.log('UH OH!!')
             }
@@ -38,9 +39,10 @@ export const getDataKey = () => {
 }
 
 export const fetchUsers = () => {
-    return async (dispatch) => {
+    return async (dispatch, getState) => {
+        const token = await getState().authentication.token
         try{
-            const response = await fetch('https://sow-joan.firebaseio.com/userData.json')
+            const response = await fetch(`https://sow-joan.firebaseio.com/userData.json?auth=${token}`)
             if(!response.ok){
                 console.log('UH OH!!')
             }
