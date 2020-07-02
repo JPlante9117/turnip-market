@@ -48,9 +48,8 @@ const NewPostingScreen = props => {
         inputValidities: {
             price: props.route.params.price !== '' ? true : false,
             ask: false,
-            link: true,
-            image: true,
-            dodoCode: true
+            link: false,
+            image: true
         },
         formValid: false
     }
@@ -160,7 +159,7 @@ const NewPostingScreen = props => {
                     />
                     :
                     <Input
-                        id='dodoCode'
+                        id='link'
                         label='Dodo Code'
                         returnKeyType='next'
                         onInputChange={inputChangeHandler}
