@@ -125,6 +125,7 @@ const IslandPriceModal = props => {
                 initialValue={0}
                 initialValid={false}
                 required
+                numbersOnly
             />
 
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
