@@ -28,7 +28,7 @@ const PostingDetailScreen = props => {
                     <View style={styles.posting}>
                         <ImageBackground style={styles.img} source={{uri: `data:image/jpg;base64,${posting.proofImg}`}}>
                             <DefaultText style={styles.date}>{posting.readableDate}</DefaultText>
-                            {posting.queueLink.length === 5 ? <DefaultText style={styles.code}>{posting.queueLink}</DefaultText> : null}
+                            {posting.queueLink.length === 5 ? <DefaultText style={styles.code}>{posting.queueLink.toUpperCase()}</DefaultText> : null}
                         </ImageBackground>
                         <View style={styles.postingSection}>
                             <DefaultText style={styles.detailHeader}>User:</DefaultText>
