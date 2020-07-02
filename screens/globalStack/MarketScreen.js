@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useEffect } from 'react'
-import { StyleSheet, ImageBackground, FlatList, ActivityIndicator, InteractionManager } from 'react-native'
+import { StyleSheet, ImageBackground, FlatList, ActivityIndicator, InteractionManager, View, RefreshControl } from 'react-native'
 import MarketCard from '../../components/MarketCard'
 import { HeaderButtons, Item } from 'react-navigation-header-buttons'
 import CustomHeaderButton from '../../components/CustomHeaderButton'
@@ -8,6 +8,9 @@ import { fetchPostings } from '../../store/actions/postingActions'
 import { MainColors } from '../../constants/MainColors'
 import { useFocusEffect } from '@react-navigation/native'
 import { fetchUsers } from '../../store/actions/userActions'
+import { Card } from 'stream-chat-expo'
+import DefaultText from '../../components/DefaultText'
+import { ScrollView } from 'react-native-gesture-handler'
 
 const MarketScreen = props => {
 
@@ -34,14 +37,6 @@ const MarketScreen = props => {
         loadPosts().then(() => setIsLoading(false))
     }, [dispatch, setIsLoading, loadPosts])
 
-    useFocusEffect(
-        useCallback(() => {
-            const task = InteractionManager.runAfterInteractions(loadPosts)
-
-            return () => task.cancel()
-        }, [loadPosts])
-    )
-
     const renderCards = itemData => {
         return <MarketCard id={itemData.item.id} user={itemData.item.userId} price={itemData.item.price} handlePress={() => props.navigation.navigate('PostingDetails', {user: users.find(user => user.id === itemData.item.userId), id: itemData.item.id})} />
     }
@@ -52,11 +47,34 @@ const MarketScreen = props => {
         </ImageBackground>
     }
 
+    if(posts.length === 0){
+        return <ImageBackground style={styles.screen} source={require('../../assets/bgtest.png')}>
+                <ScrollView
+                    refreshControl={
+                        <RefreshControl
+                            refreshing={isLoading}
+                            onRefresh={loadPosts}
+                        />
+                    }
+                >
+                    <View style={{borderRadius: 10, backgroundColor: MainColors.cardBackground, marginTop: 40, paddingVertical: 10}}>
+                        <DefaultText style={{fontSize: 35, textAlign: 'center', color: MainColors.paleBackground}}>There are no active postings</DefaultText>
+                    </View>
+                </ScrollView>
+            </ImageBackground>
+    }
+
     return(
             <ImageBackground style={styles.screen} source={require('../../assets/bgtest.png')}>
                 <FlatList
                     data={posts}
                     renderItem={renderCards}
+                    refreshControl={
+                        <RefreshControl
+                            refreshing={isLoading}
+                            onRefresh={loadPosts}
+                        />
+                    }
                 />
             </ImageBackground>
     )
