@@ -41,6 +41,12 @@ class Input extends React.Component {
         if(this.props.confirmPass != null && text !== this.props.confirmPass){
             isValid = false
         }
+        if(this.props.numbersOnly != null){
+            text = text.replace(/[^0-9]/g, "")
+        }
+        if(this.props.isDodoCode != null){
+            text = text.replace(/[^a-z A-Z 0-9]/g, "")
+        }
 
         this.setState(prevState => ({
             ...prevState,
